@@ -25,8 +25,6 @@
 
 #if defined(GPS)
 
-#define QR_SIZE             29
-#define QR_MATRIX_BYTES     ((QR_SIZE * QR_SIZE + 7) / 8)
 #define QR_DATA_CODEWORDS   55
 #define QR_ECC_CODEWORDS    15
 #define QR_TOTAL_CODEWORDS  70
@@ -52,25 +50,6 @@ static const char QR_GOOGLE_PREFIX[] PROGMEM = "https://maps.google.com/?q=";
 static const uint8_t QR_RS_DIVISOR[QR_ECC_CODEWORDS] PROGMEM = {
   29, 196, 111, 163, 112, 74, 10, 105, 105, 139, 132, 151, 32, 134, 26
 };
-
-struct GpsQrSnapshot
-{
-  uint8_t valid;
-  int32_t latitudeE5;
-  int32_t longitudeE5;
-  int16_t altitude;
-  uint16_t distance;
-  uint16_t heading;
-};
-
-static GpsQrSnapshot gpsQrLast;
-
-/*
- * 29 x 29 = 841 bits = 106 bytes.
- * The previous row-aligned representation used 29 x 4 = 116 bytes.
- */
-static uint8_t qrModules[QR_MATRIX_BYTES];
-static uint8_t qrReady = 0;
 
 
 /*
@@ -145,7 +124,7 @@ static void qrDrawFinder(uint8_t cx, uint8_t cy)
         uint8_t ax = (uint8_t)(dx < 0 ? -dx : dx);
         uint8_t ay = (uint8_t)(dy < 0 ? -dy : dy);
         uint8_t dist = ax > ay ? ax : ay;
-        qrSetModule(qrModules, (uint8_t)xx, (uint8_t)yy,
+        qrSetModule(ReBuff.qrView.qrModules, (uint8_t)xx, (uint8_t)yy,
                     (dist != 2 && dist != 4));
       }
     }
@@ -165,7 +144,7 @@ static void qrDrawAlignment(uint8_t cx, uint8_t cy)
       uint8_t ay = (uint8_t)(dy < 0 ? -dy : dy);
       uint8_t dist = ax > ay ? ax : ay;
 
-      qrSetModule(qrModules,
+      qrSetModule(ReBuff.qrView.qrModules,
                   (uint8_t)((int8_t)cx + dx),
                   (uint8_t)((int8_t)cy + dy),
                   dist != 1);
@@ -186,23 +165,23 @@ static void qrDrawFormatBits()
   uint16_t bits = (uint16_t)(((data << 10) | rem) ^ 0x5412U);
 
   for (i = 0; i <= 5; ++i)
-    qrSetModule(qrModules, 8, i, (bits >> i) & 1U);
+    qrSetModule(ReBuff.qrView.qrModules, 8, i, (bits >> i) & 1U);
 
-  qrSetModule(qrModules, 8, 7, (bits >> 6) & 1U);
-  qrSetModule(qrModules, 8, 8, (bits >> 7) & 1U);
-  qrSetModule(qrModules, 7, 8, (bits >> 8) & 1U);
+  qrSetModule(ReBuff.qrView.qrModules, 8, 7, (bits >> 6) & 1U);
+  qrSetModule(ReBuff.qrView.qrModules, 8, 8, (bits >> 7) & 1U);
+  qrSetModule(ReBuff.qrView.qrModules, 7, 8, (bits >> 8) & 1U);
 
   for (i = 9; i < 15; ++i)
-    qrSetModule(qrModules, (uint8_t)(14 - i), 8, (bits >> i) & 1U);
+    qrSetModule(ReBuff.qrView.qrModules, (uint8_t)(14 - i), 8, (bits >> i) & 1U);
 
   for (i = 0; i < 8; ++i)
-    qrSetModule(qrModules, (uint8_t)(QR_SIZE - 1 - i), 8, (bits >> i) & 1U);
+    qrSetModule(ReBuff.qrView.qrModules, (uint8_t)(QR_SIZE - 1 - i), 8, (bits >> i) & 1U);
 
   for (i = 8; i < 15; ++i)
-    qrSetModule(qrModules, 8, (uint8_t)(QR_SIZE - 15 + i), (bits >> i) & 1U);
+    qrSetModule(ReBuff.qrView.qrModules, 8, (uint8_t)(QR_SIZE - 15 + i), (bits >> i) & 1U);
 
   // Fixed dark module.
-  qrSetModule(qrModules, 8, QR_SIZE - 8, 1);
+  qrSetModule(ReBuff.qrView.qrModules, 8, QR_SIZE - 8, 1);
 }
 
 static uint8_t qrGfMultiply(uint8_t x, uint8_t y)
@@ -378,7 +357,7 @@ static uint8_t qrBuild(int32_t latitudeE5, int32_t longitudeE5)
   int8_t right;
   uint16_t bitIndex = 0;
 
-  memclear(qrModules, sizeof(qrModules));
+  memclear(ReBuff.qrView.qrModules, sizeof(ReBuff.qrView.qrModules));
 
   if (!qrEncodeCoordinates(latitudeE5, longitudeE5, codewords))
     return 0;
@@ -386,8 +365,8 @@ static uint8_t qrBuild(int32_t latitudeE5, int32_t longitudeE5)
   // Timing patterns.
   for (i = 0; i < QR_SIZE; ++i)
   {
-    qrSetModule(qrModules, 6, i, (i & 1U) == 0);
-    qrSetModule(qrModules, i, 6, (i & 1U) == 0);
+    qrSetModule(ReBuff.qrView.qrModules, 6, i, (i & 1U) == 0);
+    qrSetModule(ReBuff.qrView.qrModules, i, 6, (i & 1U) == 0);
   }
 
   // Finder patterns including their separators.
@@ -431,7 +410,7 @@ static uint8_t qrBuild(int32_t latitudeE5, int32_t longitudeE5)
             ++bitIndex;
           }
 
-          qrSetModule(qrModules, x, y, black);
+          qrSetModule(ReBuff.qrView.qrModules, x, y, black);
         }
       }
     }
@@ -448,7 +427,7 @@ static uint8_t qrBuild(int32_t latitudeE5, int32_t longitudeE5)
       for (x = 0; x < QR_SIZE; ++x)
       {
         if (!qrIsFunctionModule(x, y) && (((x + y) & 1U) == 0))
-          qrSetModule(qrModules, x, y, !qrGetModule(qrModules, x, y));
+          qrSetModule(ReBuff.qrView.qrModules, x, y, !qrGetModule(ReBuff.qrView.qrModules, x, y));
       }
     }
   }
@@ -479,31 +458,31 @@ void gpsQrUpdateLastPosition()
 {
   IF_GPS_IS_FIXED
   {
-    gpsQrLast.latitudeE5 = gpsQrCoordinateE5(telemetryData.value.gpsLatitudeNS,
+    ReBuff.qrView.gpsQrLast.latitudeE5 = gpsQrCoordinateE5(telemetryData.value.gpsLatitudeNS,
                                              telemetryData.value.gpsLatitude_bp,
                                              telemetryData.value.gpsLatitude_ap);
-    gpsQrLast.longitudeE5 = gpsQrCoordinateE5(telemetryData.value.gpsLongitudeEW,
+    ReBuff.qrView.gpsQrLast.longitudeE5 = gpsQrCoordinateE5(telemetryData.value.gpsLongitudeEW,
                                               telemetryData.value.gpsLongitude_bp,
                                               telemetryData.value.gpsLongitude_ap);
-    gpsQrLast.altitude = telemetryData.value.gpsAltitude;
-    gpsQrLast.distance = telemetryData.value.gpsDistance;
-    gpsQrLast.heading = telemetryData.value.gpsCourse_bp;
-    gpsQrLast.valid = 1;
+    ReBuff.qrView.gpsQrLast.altitude = telemetryData.value.gpsAltitude;
+    ReBuff.qrView.gpsQrLast.distance = telemetryData.value.gpsDistance;
+    ReBuff.qrView.gpsQrLast.heading = telemetryData.value.gpsCourse_bp;
+    ReBuff.qrView.gpsQrLast.valid = 1;
   }
 }
 
 uint8_t gpsQrHasValidPosition()
 {
-  return gpsQrLast.valid;
+  return ReBuff.qrView.gpsQrLast.valid;
 }
 
 static void gpsQrPrepare()
 {
   gpsQrUpdateLastPosition();
-  qrReady = 0;
+  ReBuff.qrView.qrReady = 0;
 
-  if (gpsQrLast.valid)
-    qrReady = qrBuild(gpsQrLast.latitudeE5, gpsQrLast.longitudeE5);
+  if (ReBuff.qrView.gpsQrLast.valid)
+    ReBuff.qrView.qrReady = qrBuild(ReBuff.qrView.gpsQrLast.latitudeE5, ReBuff.qrView.gpsQrLast.longitudeE5);
 }
 
 static void gpsQrDrawMatrix()
@@ -513,7 +492,7 @@ static void gpsQrDrawMatrix()
   // Keep the 64x64 left half clear around the 58x58 QR image.
   lcdDrawFilledRect(0, 0, 64, 64, SOLID, ERASE);
 
-  if (!qrReady)
+  if (!ReBuff.qrView.qrReady)
     return;
 
   for (y = 0; y < QR_SIZE; ++y)
@@ -521,7 +500,7 @@ static void gpsQrDrawMatrix()
     uint8_t x;
     for (x = 0; x < QR_SIZE; ++x)
     {
-      if (qrGetModule(qrModules, x, y))
+      if (qrGetModule(ReBuff.qrView.qrModules, x, y))
       {
         lcdDrawFilledRect(QR_LCD_X + x * QR_LCD_SCALE,
                           QR_LCD_Y + y * QR_LCD_SCALE,
@@ -537,7 +516,7 @@ static void displayGpsQrScreen()
 
   gpsQrDrawMatrix();
 
-  if (!gpsQrLast.valid || !qrReady)
+  if (!ReBuff.qrView.gpsQrLast.valid || !ReBuff.qrView.qrReady)
   {
     lcdDrawText(68, 8, STR_QR_NO_GPS);
     lcdDrawText(68, 17, STR_QR_FIX);
@@ -549,15 +528,15 @@ static void displayGpsQrScreen()
 
   lcdDrawText(66, 12, STR_QR_ALT);
   lcdPutsTelemetryChannelValue(LCD_W, 12, TELEM_GPSALT-1,
-                               gpsQrLast.altitude, 0);
+                               ReBuff.qrView.gpsQrLast.altitude, 0);
 
   lcdDrawText(66, 23, STR_QR_DIST);
   lcdPutsTelemetryChannelValue(LCD_W, 23, TELEM_DIST-1,
-                               gpsQrLast.distance, 0);
+                               ReBuff.qrView.gpsQrLast.distance, 0);
 
   lcdDrawText(66, 34, STR_QR_HDG);
   lcdPutsTelemetryChannelValue(LCD_W, 34, TELEM_HDG-1,
-                               gpsQrLast.heading, 0);
+                               ReBuff.qrView.gpsQrLast.heading, 0);
 
   lcdDrawTextAtt(78, 55, STR_QR_EXIT, INVERS);
 }

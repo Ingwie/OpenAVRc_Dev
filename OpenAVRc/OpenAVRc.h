@@ -1311,6 +1311,7 @@ extern void OpenAVRcInit(uint8_t mcusr);
 
 // Re-useable byte array to save having multiple buffers
 #define SD_SCREEN_FILE_LENGTH (26)
+
 union ReusableBuffer { // 240 bytes (LogBuffer)
 
   struct {
@@ -1367,6 +1368,27 @@ union ReusableBuffer { // 240 bytes (LogBuffer)
     char data[240]; // Sd log buffer
   } logsbuffer; // 240 bytes
 
+#endif
+
+#if defined(GPS)
+#define QR_SIZE             29
+#define QR_MATRIX_BYTES     ((QR_SIZE * QR_SIZE + 7) / 8)
+  struct {
+    struct
+    {
+      uint8_t valid;
+      int32_t latitudeE5;
+      int32_t longitudeE5;
+      int16_t altitude;
+      uint16_t distance;
+      uint16_t heading;
+    } gpsQrLast;
+    /*
+     * 29 x 29 = 841 bits = 106 bytes.
+     */
+    uint8_t qrModules[QR_MATRIX_BYTES];
+    uint8_t qrReady;
+  } qrView; // 122 bytes
 #endif
 };
 

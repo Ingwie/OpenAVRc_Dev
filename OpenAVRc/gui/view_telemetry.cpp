@@ -463,6 +463,7 @@ void menuTelemetryFrsky(uint8_t event)
       // Open the QR screen only when at least one valid GPS position
       // has been stored. Otherwise stay on telemetry and show a popup.
       if (gpsQrHasValidPosition()) {
+          closeLogIfActived();
         pushMenu(menuGpsQr);
       }
       else {
