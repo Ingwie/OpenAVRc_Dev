@@ -248,10 +248,6 @@ void displayAfterFlightScreen()
     lcdPutsTelemetryChannelValue(LCD_W-3*FW, line, TELEM_HDG-1, telemetryData.value.gpsCourse_bp, 0);
     line+=1*FH+1;
   }
-#if defined(GPS)
-  // Keep the last valid GPS position updated whenever a fix is available.
-  gpsQrUpdateLastPosition();
-#endif
 
   // Rssi
   lcdDrawTextLeft(line, STR_MINRSSI);
@@ -449,7 +445,7 @@ void menuTelemetryFrsky(uint8_t event)
     incrTelemetryScreen();
     break;
 
-  case EVT_KEY_FIRST(KEY_ENTER):
+  case EVT_KEY_LONG(KEY_ENTER):
     telemetryResetValue();
     break;
 
