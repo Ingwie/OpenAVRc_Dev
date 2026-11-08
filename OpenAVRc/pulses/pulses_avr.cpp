@@ -232,9 +232,9 @@ void startPulses(enum ProtoCmds Command)
 
 #if (SERIAL_PROTOCOL==CRSF)
   else if(IS_CRSF_PROTOCOL(s_current_protocol)) {
-//    CRSF_USART_PORT.PIN3CTRL = PORT_OPC_PULLDOWN_gc; // Pulldown TXD.
+    CRSF_USART_PORT.PIN3CTRL = PORT_OPC_PULLDOWN_gc; // Pulldown TXD.
     CRSF_USART_PORT.DIRSET = USART_TXD_PIN_bm;
-//    CRSF_USART_PORT.PIN2CTRL = PORT_OPC_PULLDOWN_gc; // Pulldown RXD.
+    CRSF_USART_PORT.PIN2CTRL = PORT_OPC_PULLDOWN_gc; // Pulldown RXD.
     CRSF_USART_PORT.DIRCLR = USART_RXD_PIN_bm;
     setup_rf_tc();
   }

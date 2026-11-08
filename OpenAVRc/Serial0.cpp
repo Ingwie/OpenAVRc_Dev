@@ -61,8 +61,24 @@ ISR(USART_UDRE_vect_N(TLM_USART0))
   else
     {
       UCSRB_N(TLM_USART0) &= ~(1 << UDRIE_N(TLM_USART0)); // Disable UDRE interrupt.
+
+#if (SERIAL_PROTOCOL == CRSF) && CRSF_M2560_USE_TXC
+      // All bytes are now loaded into the USART, but the last byte can still
+      // be physically shifting out. Wait for the real TX Complete event.
+      USART_ENABLE_TXC_INTERRUPT(TLM_USART0);
+#endif
     }
 }
+
+#if (SERIAL_PROTOCOL == CRSF) && CRSF_M2560_USE_TXC
+ISR(USART_TX_vect_N(TLM_USART0))
+{
+  // TXC fires only after the last stop bit has left the UART.
+  USART_DISABLE_TXC_INTERRUPT(TLM_USART0);
+  USART_DISABLE_TX(CRSF_USART);                       // Release M2560 TX.
+  USART_ENABLE_RX(CRSF_USART);                        // Return to receive mode.
+}
+#endif
 #endif
 
 #if defined(CPUXMEGA)
@@ -88,7 +104,7 @@ ISR(token_paste4(USART, S0_PORT, S0_USART, _DRE_vect))
 #if (SERIAL_PROTOCOL == CRSF)
 // Half Duplex (Inverted) Serial.
 // WAIT_USART_TX_FIN(CRSF_USART); // Wait for transmit complete.
-  CRSF_USART.CTRLA |= USART_TXCINTLVL_MED_gc; // Turn on TXC interrupt rather than poll TXC.
+  USART_ENABLE_TXC_INTERRUPT(CRSF_USART); // Turn on TXC interrupt rather than poll TXC.
 #endif
   }
 }
@@ -96,8 +112,8 @@ ISR(token_paste4(USART, S0_PORT, S0_USART, _DRE_vect))
 #if (SERIAL_PROTOCOL == CRSF)
 ISR(token_paste4(USART, S0_PORT, S0_USART, _TXC_vect))
 { // Used for CRSF Half Duplex Serial.
-  CRSF_USART.CTRLA &= ~USART_TXCINTLVL_gm; // Turn off TXC interrupts.
-  RF_PORT.DIRCLR = USART_TXD_PIN_bm; // Make TXD pin input.
+  USART_DISABLE_TXC_INTERRUPT(CRSF_USART); // Turn off TXC interrupts.
+  USART_RELEASE_TX_PIN(); // Make TXD pin input.
   USART_ENABLE_RX(CRSF_USART); // Enable receiver.
   // CRSF G: the RX callback owns framing; no legacy state machine.
 }

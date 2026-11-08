@@ -221,9 +221,12 @@ static void CRSF_Reset()
 {
   USART_DISABLE_TX(CRSF_USART);
   USART_DISABLE_RX(CRSF_USART);
+#if defined(CPUM2560) && CRSF_M2560_USE_TXC
+  USART_DISABLE_TXC_INTERRUPT(CRSF_USART);
+#endif
 #if defined(CPUXMEGA)
-  CRSF_USART.CTRLA &= ~USART_TXCINTLVL_gm;
-  RF_PORT.DIRCLR = USART_TXD_PIN_bm;
+  USART_DISABLE_TXC_INTERRUPT(CRSF_USART);
+  USART_RELEASE_TX_PIN();
 #endif
 #if defined(CPUM2560) || defined(CPUXMEGA)
   parseSerialTelemFunction = parseSerialTelemFakeByte;
@@ -305,6 +308,16 @@ static volatile uint8_t crsf_extra_pending = 0;
 static uint8_t crsf_extra_type = 0;
 static uint8_t crsf_extra_size = 0;
 static uint8_t crsf_extra_payload[9];
+
+// Dedicated CRSF Vario/Baro mailboxes. These two fast-changing sensors must
+// not be starved by the shared extra telemetry mailbox (cells, battery,
+// temperature, RPM, GPS time, Acc/Gyro...). UART RX stores only raw values;
+// conversion and S.Port queueing remain deferred to perMain().
+#define CRSF_AV_ALT_PENDING   0x01U
+#define CRSF_AV_VARIO_PENDING 0x02U
+static volatile uint8_t  crsf_altvar_pending = 0;
+static volatile uint16_t crsf_alt_raw = 0;
+static volatile int16_t  crsf_vario_raw = 0;
 // ELRS 0x14/0x08 sensor mailboxes. UART ISR only copies raw values;
 // S.Port queue operations execute later in perMain(). This avoids nesting
 // LoadFrskyTelemBuffer() into the UART RX interrupt while menus are drawn.
@@ -567,9 +580,66 @@ static void CRSF_GpsSendOne(void)
 #endif // GPS
 #endif // FRSKY
 
+// ALT 0x09 and Vario 0x07 have their own tiny mailboxes so a busy shared
+// telemetry mailbox cannot systematically discard them. Emit at most one
+// S.Port item per call and alternate when both are pending.
+#if defined(FRSKY)
+static void CRSF_AltVarioMain()
+{
+  static uint8_t nextVario = 0;
+  uint8_t pending;
+  uint16_t raw;
+  uint8_t sendVario;
+
+  const uint8_t savedSreg = SREG;
+  cli();
+  pending = crsf_altvar_pending;
+  if (!pending)
+  {
+    SREG = savedSreg;
+    return;
+  }
+
+  if ((pending & (CRSF_AV_ALT_PENDING | CRSF_AV_VARIO_PENDING)) ==
+      (CRSF_AV_ALT_PENDING | CRSF_AV_VARIO_PENDING))
+    sendVario = nextVario;
+  else
+    sendVario = (pending & CRSF_AV_VARIO_PENDING) ? 1U : 0U;
+
+  if (sendVario)
+  {
+    raw = (uint16_t)crsf_vario_raw;
+    crsf_altvar_pending &= (uint8_t)~CRSF_AV_VARIO_PENDING;
+    nextVario = 0;
+  }
+  else
+  {
+    raw = crsf_alt_raw;
+    crsf_altvar_pending &= (uint8_t)~CRSF_AV_ALT_PENDING;
+    nextVario = 1;
+  }
+  SREG = savedSreg;
+
+  if (sendVario)
+  {
+    // CRSF 0x07 and FrSky S.Port 0x0110 both use signed cm/s.
+    CRSF_SportQueue(0x0110, (uint32_t)(int32_t)(int16_t)raw);
+  }
+  else
+  {
+    // CRSF 0x09 barometric altitude -> S.Port 0x0100 in centimetres.
+    int32_t altitude_cm;
+    if (raw & 0x8000U)
+      altitude_cm = (int32_t)(raw & 0x7FFFU) * 100L;
+    else
+      altitude_cm = ((int32_t)raw - 10000L) * 10L;
+
+    CRSF_SportQueue(0x0100, (uint32_t)altitude_cm);
+  }
+}
+
 // One bounded mailbox is drained by perMain(), not the UART ISR or
 // the nested 10ms timer ISR. Sensor payload layouts follow oXs/CRSF (big endian).
-#if defined(FRSKY)
 static void CRSF_ExtraTelemetryTick()
 {
   if (!crsf_extra_pending) return;
@@ -648,33 +718,6 @@ static void CRSF_ExtraTelemetryTick()
         frskyStreaming = frskyStreaming ? FRSKY_TIMEOUT10ms : FRSKY_TIMEOUT_FIRST;
       }
     }
-  }
-  else if (type == CRSF_TYPE_VARIO && n == 2)
-  {
-    // CRSF 0x07: signed vertical speed in cm/s.
-    // FrSky S.Port VARIO 0x0110 uses the same cm/s unit, so no scaling is needed.
-    const int16_t vspeed =
-        (int16_t)(((uint16_t)payload[0] << 8) | payload[1]);
-    CRSF_SportQueue(0x0110, (uint32_t)(int32_t)vspeed);
-  }
-  else if (type == CRSF_TYPE_BARO_ALTITUDE && n == 2)
-  {
-    // CRSF 0x09, decoded exactly like EdgeTX:
-    //   bit15 = 0 : altitude in 0.1 m with a +1000 m offset
-    //               raw = altitude_dm + 10000
-    //   bit15 = 1 : altitude directly in whole metres in bits 0..14
-    //
-    // FrSky S.Port ALT 0x0100 expects centimetres.
-    const uint16_t raw =
-        ((uint16_t)payload[0] << 8) | payload[1];
-
-    int32_t altitude_cm;
-    if (raw & 0x8000U)
-      altitude_cm = (int32_t)(raw & 0x7FFFU) * 100L;
-    else
-      altitude_cm = ((int32_t)raw - 10000L) * 10L;
-
-    CRSF_SportQueue(0x0100, (uint32_t)altitude_cm);
   }
   else if (type == CRSF_TYPE_ACCGYRO && n == 6)
   {
@@ -780,6 +823,7 @@ void CRSF_SportTelemetryMain()
   if (CRSF_LOCAL_TELEM_OFF)
   {
     crsf_extra_pending = 0;
+    crsf_altvar_pending = 0;
     crsf_link_pending = 0;
     crsf_battery_pending = 0;
     crsf_sport_to_send = 0;
@@ -791,6 +835,7 @@ void CRSF_SportTelemetryMain()
   }
   // Run conversion and S.Port queue writes only in normal main context.
   CRSF_LinkBatteryMain();
+  CRSF_AltVarioMain();
   CRSF_ExtraTelemetryTick();
 #endif
 #if defined(FRSKY) && defined(GPS)
@@ -2103,13 +2148,28 @@ static const void CRSF_MenuRxByte(uint8_t value, uint8_t error)
     return;
   }
 
-  // Vario 0x07 and Barometric Altitude 0x09 use the
-  // same deferred mailbox as the other short oXs sensors:
-  // the UART callback only copies raw bytes; conversion is done in perMain().
+  // Vario 0x07 and Barometric Altitude 0x09 use dedicated mailboxes.
+  // Keep the UART ISR bounded: copy the two raw payload bytes only. A newer
+  // sample may replace an older pending value, which is desirable for these
+  // continuously changing sensors.
+  if (!CRSF_LOCAL_TELEM_OFF && extraType == CRSF_TYPE_VARIO && pos == 6)
+  {
+    crsf_vario_raw =
+        (int16_t)(((uint16_t)crsf_menu_rxbuf[3] << 8) | crsf_menu_rxbuf[4]);
+    crsf_altvar_pending |= CRSF_AV_VARIO_PENDING;
+    return;
+  }
+  if (!CRSF_LOCAL_TELEM_OFF && extraType == CRSF_TYPE_BARO_ALTITUDE && pos == 6)
+  {
+    crsf_alt_raw =
+        ((uint16_t)crsf_menu_rxbuf[3] << 8) | crsf_menu_rxbuf[4];
+    crsf_altvar_pending |= CRSF_AV_ALT_PENDING;
+    return;
+  }
+
+  // Other short oXs sensors continue to share the existing bounded mailbox.
   if (!CRSF_LOCAL_TELEM_OFF &&
-      ((extraType == CRSF_TYPE_VARIO && pos == 6) ||
-       (extraType == CRSF_TYPE_BARO_ALTITUDE && pos == 6) ||
-       (extraType == CRSF_TYPE_TEMPERATURE && (pos == 7 || pos == 9)) ||
+      ((extraType == CRSF_TYPE_TEMPERATURE && (pos == 7 || pos == 9)) ||
        (extraType == CRSF_TYPE_RPM && pos == 8) ||
        (extraType == CRSF_TYPE_GPS_TIME && pos == 13)))
   {
@@ -2354,11 +2414,18 @@ static uint16_t CRSF_SERIAL_cb()
           build_CRSF_data_pkt();
       }
       #if !defined(SIMU)
-#if defined(CPUXMEGA)
+#if defined(CPUM2560) && CRSF_M2560_USE_TXC
+      // M2560 TXC half-duplex mode:
+      // stop listening, clear a stale TX-complete flag, then drive TX.
+      USART_DISABLE_RX(CRSF_USART);
+      USART_DISABLE_TXC_INTERRUPT(CRSF_USART);
+      USART_CLEAR_TXC(CRSF_USART);
+      USART_ENABLE_TX(CRSF_USART);
+#elif defined(CPUXMEGA)
       // EVO V2 half-duplex: drive TXD only while a CRSF frame is sent.
       USART_DISABLE_RX(CRSF_USART);
-      CRSF_USART.STATUS = USART_TXCIF_bm; // Clear stale TX-complete flag.
-      RF_PORT.DIRSET = USART_TXD_PIN_bm;
+      USART_CLEAR_TXC(CRSF_USART);
+      USART_DRIVE_TX_PIN();
 #endif
       USART_TRANSMIT_BUFFER(CRSF_USART);
       #endif
@@ -2408,11 +2475,16 @@ static void CRSF_initialize(uint8_t bind)
   USART_SET_BAUD_115K2(CRSF_USART);
 #endif
   USART_SET_MODE_8N1(CRSF_USART);
+#if defined(CPUM2560) && CRSF_M2560_USE_TXC
+  // TX stays disabled while idle; CRSF_SERIAL_cb() enables it for each frame.
+  USART_DISABLE_TX(CRSF_USART);
+#else
   USART_ENABLE_TX(CRSF_USART);
+#endif
 #if defined(CPUXMEGA)
   // Release the half-duplex signal line until the next frame.
-  RF_PORT.DIRCLR = USART_TXD_PIN_bm;
-  CRSF_USART.CTRLA &= ~USART_TXCINTLVL_gm;
+  USART_RELEASE_TX_PIN();
+  USART_DISABLE_TXC_INTERRUPT(CRSF_USART);
 #endif
   Usart0TxBufferCount = 0;
 #if defined(CPUM2560) || defined(CPUXMEGA)
@@ -2428,8 +2500,9 @@ static void CRSF_initialize(uint8_t bind)
   crsf_gps_new = 0;
 #endif
 #if defined(FRSKY)
-  // Discard leftover temperature/RPM/time mailbox from another model.
+  // Discard leftover sensor mailboxes from another model.
   crsf_extra_pending = 0;
+  crsf_altvar_pending = 0;
   crsf_link_pending = 0;
   crsf_battery_pending = 0;
   crsf_sport_to_send = 0;

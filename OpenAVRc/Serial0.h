@@ -35,6 +35,14 @@
 #define telemetry_driver_h
 
 #if defined(CPUM2560)
+
+// CRSF M2560 half-duplex turnaround mode.
+// 0 = legacy behaviour (current OpenAVRc behaviour)
+// 1 = TXC mode: RX off during TX, TX released only after the last stop bit.
+#ifndef CRSF_M2560_USE_TXC
+  #define CRSF_M2560_USE_TXC 1
+#endif
+
   #if defined(SERIALPROTOONUART2)
     #if defined(SPIMODULES)
       #error SPIMODULE option already use usart2
@@ -56,6 +64,22 @@
   #define SBUS_USART TLM_USART0
   #define SUMD_USART TLM_USART0
   #define FRSKY_USART TLM_USART0
+
+  // CRSF TX-complete helpers. Keep low-level USART register access here
+  // so protocol code does not manipulate UCSR registers directly.
+  #define _CRSF_TXC_N(usart_no) TXC ## usart_no
+  #define CRSF_TXC_N(usart_no) _CRSF_TXC_N(usart_no)
+  #define _USART_TX_vect_N(usart_no) USART ## usart_no ## _TX_vect
+  #define USART_TX_vect_N(usart_no) _USART_TX_vect_N(usart_no)
+
+  #define USART_CLEAR_TXC(usartn) \
+    { UCSRA_N(usartn) |= (1 << CRSF_TXC_N(usartn)); }
+
+  #define USART_ENABLE_TXC_INTERRUPT(usartn) \
+    { UCSRB_N(usartn) |= (1 << TXCIE_N(usartn)); }
+
+  #define USART_DISABLE_TXC_INTERRUPT(usartn) \
+    { UCSRB_N(usartn) &= ~(1 << TXCIE_N(usartn)); }
 #endif
 #if defined(CPUXMEGA)
   #define S0_USART 0
@@ -64,6 +88,23 @@
   #define SERIAL0_PORT  token_paste2(PORT, S0_PORT) // e.g. PORTE
   #define S0_USART_TXD_PIN_CTRL_REG  token_paste3(SERIAL0_PORT.PIN, 3, CTRL) // e.g. "PORTx.PINnCTRL"
   #define S0_USART_RXD_PIN_CTRL_REG  token_paste3(SERIAL0_PORT.PIN, 2, CTRL) // e.g. "PORTx.PINnCTRL"
+
+  // CRSF TX-complete / half-duplex helpers. Keep XMEGA register and pin
+  // manipulation out of the protocol implementation.
+  #define USART_CLEAR_TXC(usartn) \
+    { usartn.STATUS = USART_TXCIF_bm; }
+
+  #define USART_ENABLE_TXC_INTERRUPT(usartn) \
+    { usartn.CTRLA |= USART_TXCINTLVL_MED_gc; }
+
+  #define USART_DISABLE_TXC_INTERRUPT(usartn) \
+    { usartn.CTRLA &= ~USART_TXCINTLVL_gm; }
+
+  #define USART_DRIVE_TX_PIN() \
+    { RF_PORT.DIRSET = USART_TXD_PIN_bm; }
+
+  #define USART_RELEASE_TX_PIN() \
+    { RF_PORT.DIRCLR = USART_TXD_PIN_bm; }
 #endif
 
 #define NUM_FRSKY_TLM_PKT    3   // Frsky packet buffers
