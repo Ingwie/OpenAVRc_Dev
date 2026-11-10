@@ -220,11 +220,14 @@ void process_ibus_telem(void)
 {
   // Any packet reaching this decoder has already been accepted by the
   // AFHDS2A RF layer (packet type, transmitter ID and telemetry option).
-  // Refresh the telemetry timeout on every valid normal or extended iBUS
-  // packet.  Previously only selected 0xAA sensor records refreshed the
-  // timeout, while 0xAC extended packets never did, which could make the
-  // OpenAVRc "NO DATA" indication blink even though telemetry was present.
-  if (ibus_telem_buffer[0] == 0xAA || ibus_telem_buffer[0] == 0xAC)
+  //
+  // 0xAA normal telemetry is always present while the AFHDS2A telemetry
+  // link is active. Refresh the OpenAVRc telemetry timeout on every
+  // accepted 0xAA packet.
+  //
+  // 0xAC extended telemetry is optional and must not be required to keep
+  // the telemetry link active.
+  if (ibus_telem_buffer[0] == 0xAA)
     frskyStreaming = frskyStreaming ? FRSKY_TIMEOUT10ms : FRSKY_TIMEOUT_FIRST;
 
   // Over The Air packet format.
