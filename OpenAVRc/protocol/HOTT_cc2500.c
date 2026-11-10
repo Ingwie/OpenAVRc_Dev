@@ -195,7 +195,9 @@ enum
  HOTT_RX2   = 0x05,
 };
 
-#if defined(HOTT_FW_TELEMETRY) && !defined(FRSKY)
+// Legacy HoTT telemetry path kept only for reference.
+// It is not compiled; the active OpenAVRc HoTT telemetry path is FRSKY only.
+#if 0 // Legacy HOTT_FW_TELEMETRY path disabled: OpenAVRc HoTT telemetry uses FRSKY only
  #define HOTT_SENSOR_TYPE 6
  #define HOTT_SENSOR_SEARCH_PERIOD 2000
  uint8_t HOTT_sensor_cur=0;
@@ -1188,7 +1190,7 @@ static void HOTT_prep_data_packet()
     packet_p2M[29] = 0x02U; // NoSync
   }
 #endif
-#if defined(HOTT_FW_TELEMETRY) && !defined(FRSKY)
+#if 0 // Legacy HOTT_FW_TELEMETRY path disabled: OpenAVRc HoTT telemetry uses FRSKY only
  if(!HOTT_BIND_P2M)
   {
    static uint8_t prev_SerialRX_val=0;
@@ -1348,7 +1350,7 @@ static uint16_t HOTT_cb()
          HOTT_oavrc_process_telemetry(telem_save_data_buff);
         }
 #endif
-#if defined(HOTT_FW_TELEMETRY) && !defined(FRSKY)
+#if 0 // Legacy HOTT_FW_TELEMETRY path disabled: OpenAVRc HoTT telemetry uses FRSKY only
 //#if defined(FRSKY)
 //          if (g_model.rfOptionBool1) // telemetry on? // TODO ....
        else
@@ -1460,7 +1462,7 @@ static uint16_t HOTT_cb()
 #endif
       }
     }
-#if defined(HOTT_FW_TELEMETRY) && !defined(FRSKY)
+#if 0 // Legacy HOTT_FW_TELEMETRY path disabled: OpenAVRc HoTT telemetry uses FRSKY only
    packet_count++;
    if(packet_count>=100)
     {
@@ -1521,7 +1523,7 @@ static void HOTT_initialize(uint8_t bind)
  HOTT_GPS_STATE_P2M = HOTT_GPS_HOUR_MASK; // hour=31 invalid, position-valid=0
 #endif
 #endif
-#if defined(HOTT_FW_TELEMETRY) && !defined(FRSKY)
+#if 0 // Legacy HOTT_FW_TELEMETRY path disabled: OpenAVRc HoTT telemetry uses FRSKY only
  HoTT_SerialRX_val=0;
  HoTT_SerialRX=false;
  HOTT_sensor_cur=3;
