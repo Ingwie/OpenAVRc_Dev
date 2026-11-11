@@ -195,6 +195,7 @@ enum
  HOTT_RX2   = 0x05,
 };
 
+/*
 #if defined(HOTT_FW_TELEMETRY) && !defined(FRSKY)
  #define HOTT_SENSOR_TYPE 6
  #define HOTT_SENSOR_SEARCH_PERIOD 2000
@@ -204,6 +205,7 @@ enum
  uint8_t HOTT_sensor_ok[HOTT_SENSOR_TYPE];
  uint8_t HOTT_sensor_seq=0;
 #endif
+*/
 
 #if defined(FRSKY)
 // ---------------------------------------------------------------------------
@@ -1188,6 +1190,8 @@ static void HOTT_prep_data_packet()
     packet_p2M[29] = 0x02U; // NoSync
   }
 #endif
+
+/*
 #if defined(HOTT_FW_TELEMETRY) && !defined(FRSKY)
  if(!HOTT_BIND_P2M)
   {
@@ -1223,6 +1227,7 @@ static void HOTT_prep_data_packet()
     }
   }
 #endif
+*/
 
  // packet_p2M[28] already contains the selected HoTT sensor ID.
  CC2500_WriteReg(CC2500_06_PKTLEN, HOTT_TX_PACKET_LEN);
@@ -1348,6 +1353,7 @@ static uint16_t HOTT_cb()
          HOTT_oavrc_process_telemetry(telem_save_data_buff);
         }
 #endif
+/*
 #if defined(HOTT_FW_TELEMETRY) && !defined(FRSKY)
 //#if defined(FRSKY)
 //          if (g_model.rfOptionBool1) // telemetry on? // TODO ....
@@ -1458,8 +1464,10 @@ static uint16_t HOTT_cb()
         }
        pps_counter++;
 #endif
+*/
       }
     }
+/*
 #if defined(HOTT_FW_TELEMETRY) && !defined(FRSKY)
    packet_count++;
    if(packet_count>=100)
@@ -1478,6 +1486,7 @@ static uint16_t HOTT_cb()
      pps_counter=packet_count=0;
     }
 #endif
+*/
    HOTT_SEND_SEQ_P2M=HOTT_DATA1;
    return 1000*2;
   }
@@ -1521,6 +1530,8 @@ static void HOTT_initialize(uint8_t bind)
  HOTT_GPS_STATE_P2M = HOTT_GPS_HOUR_MASK; // hour=31 invalid, position-valid=0
 #endif
 #endif
+
+/*
 #if defined(HOTT_FW_TELEMETRY) && !defined(FRSKY)
  HoTT_SerialRX_val=0;
  HoTT_SerialRX=false;
@@ -1533,6 +1544,7 @@ static void HOTT_initialize(uint8_t bind)
  packet_count=0;
  state=HOTT_SENSOR_SEARCH_PERIOD;
 #endif
+*/
  HOTT_SEND_SEQ_P2M = HOTT_START;
  PROTO_Start_Callback( HOTT_cb);
 }
