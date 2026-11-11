@@ -947,7 +947,7 @@ endif
 ifeq ($(EXT), $(filter $(EXT), FRSKY ))
   CPPDEFS += -DFRSKY
   CPPSRC += telemetry/frsky.cpp
-  CPPSRC += telemetry/ibus.cpp
+
   GUIMODELSRC +=  gui/menu_model_telemetry.cpp
 
   CPPSRC += gui/view_telemetry.cpp
