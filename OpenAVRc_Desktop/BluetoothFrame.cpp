@@ -34,14 +34,13 @@
 
 
 #include "BluetoothFrame.h"
-#include "OpenAVRc_DesktopMain.h"
 #include "../OpenAVRc/thirdparty/xmodem/xmodem.cpp"
 
 #define SD_ROOT ("/")
 
 #define START_TIMOUT() \
  timout = true;        \
- TimerRX.StartOnce(350);
+ TimerRX.StartOnce(200);
 
 #define IS_SD_DIR(x)       \
  ((x.StartsWith("[")) && (x.EndsWith("]"))) // x is a wxString
@@ -49,18 +48,25 @@
 #define IS_SD_ROOT(x)       \
  (x == SD_ROOT) // x is a wxString
 
-Tserial *BTComPort;
+#if defined(__UNIX__)
+ wxString slashChar = "/";
+#else
+ wxString slashChar = "\\";
+ #endif
 
-#if defined(USE_DDE_LINK)
-// DDE
-DdeServer * dynDdeServer = NULL;
-DdeClient * dynDdeClient = NULL;
-DdeConnectionOut * dynDdeConnectionOut = NULL;
-DdeConnectionIn * dynDdeConnectionIn = NULL;
+#ifdef USESERIAL
+Tserial *BTComPort;
+#endif // USESERIAL
+
+#if defined(USE_TCP_LINK)
+TcpServer * dynTcpServer = NULL;
+TcpClient * dynTcpClient = NULL;
+TcpConnectionOut * dynTcpConnectionOut = NULL;
+TcpConnectionIn * dynTcpConnectionIn = NULL;
 wxString hostName;
-wxString DdeServerName;
-wxString DdeExtServerName;
-wxString DdeTopicName;
+wxString TcpServerName;
+wxString TcpExtServerName;
+wxString TcpTopicName;
 #endif
 
 //popup menu ID
@@ -138,8 +144,10 @@ Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&BluetoothFrame::OnCl
 
  Connect(wxID_ANY, wxEVT_COMMAND_MENU_SELECTED, (wxObjectEventFunction)&BluetoothFrame::OnSdPopupChoice);
  DirCtrl->Connect(wxID_ANY, wxEVT_TREE_BEGIN_DRAG, wxTreeEventHandler(BluetoothFrame::OnDirCtrlBeginDrag), NULL, this);
- DirCtrl->SetPath(AppPath + "\\SD\\");
+ DirCtrl->SetPath(AppPath + slashChar + "SD" + slashChar);
+#ifdef USESERIAL
  BTComPort = new Tserial();
+#endif // USESERIAL
  comIsValid = false;
  uCLI = "uCLI>";
 
@@ -151,9 +159,8 @@ Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&BluetoothFrame::OnCl
  txtDirCtrlDropTarget->SetDataObject(new wxTextDataObject());
  DirCtrl->SetDropTarget(txtDirCtrlDropTarget); //Enable droping objects on HDD
 
-#if defined(USE_DDE_LINK)
- // DDE exchange
- DdeLink();
+#if defined(USE_TCP_LINK)
+ TcpLink();
 #endif
 }
 
@@ -165,12 +172,14 @@ BluetoothFrame::~BluetoothFrame()
 
 void BluetoothFrame::OnClose(wxCloseEvent& event)
 {
+#ifdef USESERIAL
  if (BTComPort != NULL) delete BTComPort;
-#if defined(USE_DDE_LINK)
- if (dynDdeConnectionOut != NULL) delete dynDdeConnectionOut;
- if (dynDdeConnectionIn != NULL) delete dynDdeConnectionIn;
- if (dynDdeClient != NULL) delete dynDdeClient;
- if (dynDdeServer != NULL) delete dynDdeServer;
+#endif // USESERIAL
+#if defined(USE_TCP_LINK)
+ if (dynTcpConnectionOut != NULL) delete dynTcpConnectionOut;
+ if (dynTcpConnectionIn != NULL) delete dynTcpConnectionIn;
+ if (dynTcpClient != NULL) delete dynTcpClient;
+ if (dynTcpServer != NULL) delete dynTcpServer;
 #endif
  OpenAVRc_DesktopFrame *parent = wxDynamicCast(this->GetParent(), OpenAVRc_DesktopFrame);
  if(parent)
@@ -180,6 +189,7 @@ void BluetoothFrame::OnClose(wxCloseEvent& event)
 
 void BluetoothFrame::DetectSerial()
 {
+#ifdef USESERIAL
  TCHAR Devices [5000];
  for(int i=0; i<255; i++) // checking ports from COM0 to COM255
   {
@@ -192,16 +202,19 @@ void BluetoothFrame::DetectSerial()
      ComboBoxCom->Insert(ComName,0); // add to the ComboBox
     }
   }
+#endif // USESERIAL
 }
 
 void BluetoothFrame::ConnectBTCom(wxString name)
 {
- int error;
+ int error = 1;
+#ifdef USESERIAL
  char comMame[10];
  strncpy(comMame, (const char*)name.mb_str(wxConvUTF8), 10);
  assert(BTComPort);
  wxBusyCursor wait;
  error = BTComPort->connect(comMame, 115200, spNONE);
+#endif // USESERIAL
  if (error == 0)
   {
    comIsValid = true;
@@ -223,8 +236,11 @@ void BluetoothFrame::ConnectBTCom(wxString name)
 void BluetoothFrame::OnComboBoxComDropdown(wxCommandEvent& event)
 {
  Gauge->Pulse();
+#ifdef USESERIAL
  BTComPort->disconnect();
+#endif // USESERIAL
  ComboBoxCom->Clear();
+ ComboBoxCom->Append("SimuFram");
  StaticTextFreeMem->SetLabel("------");
  StaticTextFreeMem->Update();
  StaticTextVersion->SetLabel("");
@@ -247,6 +263,7 @@ wxString BluetoothFrame::sendCmdAndWaitForResp(wxString BTcommand, wxString* BTa
 {
  if (comIsValid)
   {
+#ifdef USESERIAL
    BTComPort->flush();  // flush buffer
 
    int16_t l = BTcommand.length();
@@ -277,32 +294,44 @@ wxString BluetoothFrame::sendCmdAndWaitForResp(wxString BTcommand, wxString* BTa
        char buffer[Num+1] = {0};
        BTComPort->getArray(buffer, Num);
        *BTanwser = (const char*)(buffer);
-       if(!(BTanwser->StartsWith(uCLI))) return "ERR";
-       BTcommand = BTanwser->BeforeFirst(wxUniChar('\r'));
-       BTcommand = BTcommand.AfterFirst(wxUniChar('>'));
+       wxString tmp = BTanwser->BeforeFirst(wxUniChar('\r'));
+       tmp = tmp.AfterFirst(wxUniChar('>'));
        *BTanwser = BTanwser->AfterFirst(wxUniChar('\n'));
-       Sleep(200);
-       return BTcommand;
+       return tmp;
       }
     }
+#endif // USESERIAL
   }
-#if defined(USE_DDE_LINK)
-  else if ((dynDdeConnectionIn != NULL) && (dynDdeConnectionOut != NULL))// use DDE
+#if defined(USE_TCP_LINK)
+  if ((dynTcpConnectionIn != NULL) && (dynTcpConnectionOut != NULL))
   {
-    ddeResponce = ""; // flush
-    dynDdeConnectionOut->Poke(DdeTopicName,BTcommand);
+    tcpResponce.clear(); // flush
+    dynTcpConnectionOut->Poke(TcpTopicName,BTcommand);
+    wxMilliSleep(100);
+    BTanwser->clear();
+    wxBusyCursor wait;
 
-   for( int i=0; i<10; ++i)
+     for( int i=0; i<10; ++i)
       {
        START_TIMOUT();
        do
         {
          wxYieldIfNeeded();
+         wxMilliSleep(10);
         }
        while (timout);
-       if (ddeResponce.Last() == '\n') break;
+       if (tcpResponce.size() > 0) {
+       *BTanwser += tcpResponce;
+       tcpResponce.clear();
+       }
+       else break;
       }
-     return ddeResponce;
+//       wxMessageBox(*BTanwser);
+       wxString tmp = BTanwser->BeforeFirst(wxUniChar('\r'));
+       tmp = tmp.AfterFirst(wxUniChar('>'));
+       *BTanwser = BTanwser->AfterFirst(wxUniChar('\n'));
+
+    return tmp;
   }
 #endif
  return "ERR";
@@ -311,21 +340,28 @@ wxString BluetoothFrame::sendCmdAndWaitForResp(wxString BTcommand, wxString* BTa
 void BluetoothFrame::OnBitmapButtonRebootClick(wxCommandEvent& event)
 {
  char Reboot[] = {'r','e','b','o','o','t','\r','\n'};
+#ifdef USESERIAL
  BTComPort->sendArray(Reboot, sizeof(Reboot)); // Send BTcommand
+#endif // USESERIAL
  OnComboBoxComDropdown(event);
 }
 
 void BluetoothFrame::OnBitmapButtonRefreshClick(wxCommandEvent& event)
 {
+#if defined(USE_TCP_LINK)
+ if ((comIsValid) || ((dynTcpConnectionOut != NULL) && (dynTcpConnectionIn != NULL)))
+#else
  if (comIsValid)
-  {
+#endif // defined
+ {
    wxBusyCursor wait;
    Gauge->SetRange(100);
    Gauge->SetValue(0);
    getAndShowRam();
    Gauge->SetValue(10);
+   getAndShowVer();
+   Gauge->SetValue(15);
    Populate_SD();
-   Gauge->SetValue(100);
   }
 }
 
@@ -437,11 +473,12 @@ void BluetoothFrame::OnTctrlSdBeginDrag(wxTreeEvent& event) // SD drag
  wxTreeItemId item = event.GetItem();
  if (item.IsOk())
   {
-   wxTextDataObject dragData(GetFullPathTctrlItem(item));
+    wxDropSource dragSource(this);
+    wxTextDataObject dragData(GetFullPathTctrlItem(item));
    if (dragData.GetTextLength())
     {
      dragSource.SetData(dragData);
-     dragResult = dragSource.DoDragDrop(true);
+     dragResult = dragSource.DoDragDrop(wxDrag_DefaultMove);
     }
   }
 }
@@ -455,11 +492,12 @@ void BluetoothFrame::OnDirCtrlBeginDrag(wxTreeEvent& event) // HDD Drag
    wxString path = DirCtrl->GetFilePath();
    if (path != "")  // Drag only files
     {
-     wxTextDataObject dragData(path);
+      wxDropSource dragSource(this);
+      wxTextDataObject dragData(path);
      if (dragData.GetTextLength())
       {
        dragSource.SetData(dragData);
-       dragResult = dragSource.DoDragDrop(true);
+       dragResult = dragSource.DoDragDrop(wxDrag_DefaultMove);
       }
     }
   }
@@ -482,7 +520,7 @@ void BluetoothFrame::SdToSdCpy(wxString dest, wxString file)
 //wxMessageBox(BTanwser);
    Gauge->SetValue(0);
    Gauge->SetRange(100);
-   Sleep(200);
+   wxMilliSleep(200);
    Populate_SD();
   }
 }
@@ -497,20 +535,21 @@ void BluetoothFrame::HddToSdCpy(wxString dest, wxString file)
      dest.Replace("[","/");
      dest.Replace("]","/");
     }
-   wxString file2 = file.AfterLast('\\');
+   wxFileName fileName(file);
+   wxString file2 = fileName.GetFullName();
    file2.Replace(" ","_");
    wxString uCliCommand = "cp xmdm SD" + dest + file2;
 //wxMessageBox(uCliCommand);
    wxString BTanwser = "";
    wxString retVal = sendCmdAndWaitForResp(uCliCommand, &BTanwser);
-   Sleep(200);
+   wxMilliSleep(200);
    Set_BluetoothFrame_Gauge_Pointer(Gauge);
    int ret = XSend(file.c_str());
    if (retVal == "-8") wxMessageBox(_("Le fichier existe déjà"));
    if (ret) wxMessageBox(wxString::Format(wxT("%i"),ret));
    Gauge->SetValue(0);
    Gauge->SetRange(100);
-   Sleep(200);
+   wxMilliSleep(200);
    Populate_SD();
   }
 }
@@ -529,19 +568,20 @@ void BluetoothFrame::SDToHddCpy(wxString dest, wxString file)
 //wxMessageBox(uCliCommand);
    wxString BTanwser = "";
    wxString retVal = sendCmdAndWaitForResp(uCliCommand, &BTanwser);
-   Sleep(200);
+   wxMilliSleep(200);
    if (wxDirExists(dest)) // this is a dir ?
     {
-     dest += "\\";
+     dest += slashChar;
     }
    else if (wxFileExists(dest)) // this this a file ?
     {
-     dest = dest.BeforeLast('\\'); // remove the file name to keep the dir.
-     dest += "\\";
+     wxFileName fileName(dest);
+     dest = fileName.GetPath();
+     dest += slashChar;
     }
    else // this is a drive
     {
-     dest += "\\";
+     dest += slashChar;
     }
    dest += file.AfterLast('/');
    Set_BluetoothFrame_Gauge_Pointer(Gauge);
@@ -558,27 +598,28 @@ bool DnD_TctrlSd_Txt::OnDropText(wxCoord x, wxCoord y, const wxString& text) // 
 {
  wxPoint point(x,y);
  int flag = wxTREE_HITTEST_ABOVE | wxTREE_HITTEST_ONITEMLABEL;
- wxTreeItemId dest = BluetoothFrame->TctrlSd->HitTest(point, flag);
+ wxTreeItemId dest = bluetoothFrame->TctrlSd->HitTest(point, flag);
  if (dest.IsOk())
   {
-   wxString destName = BluetoothFrame->TctrlSd->GetItemText(dest);
+   wxString destName = bluetoothFrame->TctrlSd->GetItemText(dest);
    if (!(IS_SD_DIR(destName) || IS_SD_ROOT(destName)))
     {
-     dest = BluetoothFrame->TctrlSd->GetItemParent(dest);
+     dest = bluetoothFrame->TctrlSd->GetItemParent(dest);
     }
    if (dest.IsOk())
     {
-     wxString destName = BluetoothFrame->TctrlSd->GetItemText(dest);
-     if (text.StartsWith(SD_ROOT)) // Sender is SD
+     wxString destName = bluetoothFrame->TctrlSd->GetItemText(dest);
+     //if (text.StartsWith(SD_ROOT)) // Sender is SD don't work on Linux !
+     if (!(wxFile::Exists(text))) // Sender is SD
       {
-       BluetoothFrame->SdToSdCpy(destName, text);
+       bluetoothFrame->SdToSdCpy(destName, text);
       }
      else
       {
-       BluetoothFrame->HddToSdCpy(destName, text);
+       bluetoothFrame->HddToSdCpy(destName, text);
       }
     }
-   //BluetoothFrame->TctrlSd->AppendItem(dest, text);
+   //bluetoothFrame->TctrlSd->AppendItem(dest, text);
    return true;
   }
  return false;
@@ -588,14 +629,14 @@ bool DnD_DirCtrl_Txt::OnDropText(wxCoord x, wxCoord y, const wxString& text) // 
 {
  wxPoint point(x,y);
  int flag = wxTREE_HITTEST_ABOVE | wxTREE_HITTEST_ONITEMLABEL;
- wxTreeItemId dest = BluetoothFrame->DirCtrl->GetTreeCtrl()->HitTest(point, flag);
+ wxTreeItemId dest = bluetoothFrame->DirCtrl->GetTreeCtrl()->HitTest(point, flag);
  if (dest.IsOk())
   {
-   wxString path = BluetoothFrame->DirCtrl->GetPath(dest);
+   wxString path = bluetoothFrame->DirCtrl->GetPath(dest);
    if (text.StartsWith(SD_ROOT)) // Verify sender is SD
     {
-     BluetoothFrame->SDToHddCpy(path, text);
-     //BluetoothFrame->DirCtrl->GetTreeCtrl()->AppendItem(dest, text);
+     bluetoothFrame->SDToHddCpy(path, text);
+     //bluetoothFrame->DirCtrl->GetTreeCtrl()->AppendItem(dest, text);
     }
    return true;
   }
@@ -628,7 +669,7 @@ void BluetoothFrame::SdDeleteFile(wxString file)
    wxString retVal = sendCmdAndWaitForResp("rm SD" + file, &BTanwser);
    //wxMessageBox(BTanwser);
    //wxMessageBox(retVal);
-   Sleep(200);
+   wxMilliSleep(200);
    Populate_SD();
   }
 }
@@ -657,7 +698,7 @@ void BluetoothFrame::OnSdPopupChoice(wxCommandEvent& event)
 
 ReusableBuffer ReBuff;
 
-write_file(wxFile* fd, const uint8_t* buffer, int buffer_len)
+int write_file(wxFile* fd, const uint8_t* buffer, int buffer_len)
 {
  int ret = 0;
 
@@ -719,70 +760,69 @@ wxFile * FileOpenForRead(char *FullFileName)
  return NULL;
 }
 
-#if defined(USE_DDE_LINK)
-////// DDE ////////////////////////////
+#if defined(USE_TCP_LINK)
 
-void BluetoothFrame::DdeLink()
+void BluetoothFrame::TcpLink()
 {
  hostName = wxGetHostName();
- DdeServerName = "OPENAVRC1";
- DdeExtServerName = "OPENAVRC2";
- DdeTopicName = "BT";
+ TcpServerName = "3211";
+ TcpExtServerName = "3122";
+ TcpTopicName = "SimuOAVRC";
 
- dynDdeServer = new DdeServer(this);
- dynDdeServer->Create(DdeServerName);
- DdeConnectTo(DdeExtServerName);
+ dynTcpServer = new TcpServer(this);
+ dynTcpServer->Create(TcpServerName);
+ TcpConnectTo(TcpExtServerName);
 }
 
-bool BluetoothFrame::DdeConnectTo(wxString ExtServerName)
+bool BluetoothFrame::TcpConnectTo(wxString ExtServerName)
 {
- if (dynDdeConnectionOut != NULL) delete dynDdeConnectionOut;
- dynDdeConnectionOut = NULL;
- if (dynDdeClient != NULL) delete dynDdeClient;
- dynDdeClient = NULL;
+ if (dynTcpConnectionOut != NULL) delete dynTcpConnectionOut;
+ dynTcpConnectionOut = NULL;
+ if (dynTcpClient != NULL) delete dynTcpClient;
+ dynTcpClient = NULL;
 
  wxLogNull nolog;
- dynDdeClient = new DdeClient;
- dynDdeConnectionOut = (DdeConnectionOut *)dynDdeClient->MakeConnection(hostName, ExtServerName, DdeTopicName);
- if (dynDdeConnectionOut)
+ dynTcpClient = new TcpClient;
+ dynTcpConnectionOut = (TcpConnectionOut *)dynTcpClient->MakeConnection(hostName, ExtServerName, TcpTopicName);
+ if (dynTcpConnectionOut)
   {
-   wxMessageBox("trouvé !", "Client serveur");
-   dynDdeConnectionOut->Poke(DdeTopicName,"TOTO");
+   //wxMessageBox("trouvé !", "Client serveur");
+   dynTcpConnectionOut->Poke(TcpTopicName,"IPC OK");comIsValid = true;
+   return true;
   }
  else
   {
-   wxMessageBox("hoin ! !", "Client serveur");
-   delete dynDdeConnectionOut;
-   dynDdeConnectionOut = NULL;
-   delete dynDdeClient;
-   dynDdeClient = NULL;
+   //wxMessageBox("hoin ! !", "Client serveur");
+   delete dynTcpConnectionOut;
+   dynTcpConnectionOut = NULL;
+   delete dynTcpClient;
+   dynTcpClient = NULL;
+   return false;
   }
-  return true;
 }
 
-wxConnectionBase * DdeServer::OnAcceptConnection(const wxString& topic)
+wxConnectionBase * TcpServer::OnAcceptConnection(const wxString& topic)
 {
-if (topic == DdeTopicName)
+if (topic == TcpTopicName)
 {
 wxLogNull nolog;
-wxMessageBox("connection entrante");
-dynDdeConnectionIn = new DdeConnectionIn(bluetoothFrame);
-return dynDdeConnectionIn;
-}
+//wxMessageBox("connection entrante");
+dynTcpConnectionIn = new TcpConnectionIn(bluetoothFrame);
+return dynTcpConnectionIn;
+} else
 return NULL;
 }
 
-bool DdeConnectionIn::OnPoke(const wxString &topic, const wxString &item, const void *data, size_t size, wxIPCFormat format)
+bool TcpConnectionIn::OnPoke(const wxString &topic, const wxString &item, const void *data, size_t size, wxIPCFormat format)
 {
 wxLogNull nolog;
  //wxMessageBox("poke ok", topic);
- if (dynDdeConnectionOut == NULL)
+ if (dynTcpConnectionOut == NULL)
  {
-   bluetoothFrame->DdeConnectTo(DdeExtServerName);
+   bluetoothFrame->TcpConnectTo(TcpExtServerName);
  }
  char* temp = (char*)data;
- bluetoothFrame->ddeResponce = wxString::FromUTF8(temp);
+ tcpResponce = wxString::FromUTF8(temp);
  return true;
 }
-////// DDE ////////////////////////////
 #endif

@@ -36,14 +36,17 @@
 #include <wx/dataobj.h>
 #include <wx/dnd.h>
 #include <wx/file.h>
-#if defined(USE_DDE_LINK)
-#define wxUSE_DDE_FOR_IPC 1 // use Windows DDE
-#include <wx/ipc.h>
+#if defined(USE_TCP_LINK)
+#include "wx/sckipc.h"
 #include <wx/utils.h>
 #include <wx/msgdlg.h>
 #endif
 
+#include "OpenAVRc_DesktopMain.h"
+
+#ifdef USESERIAL
 #include "serial/tserial.h"
+#endif
 
 //(*Headers(BluetoothFrame)
 #include <wx/bmpbuttn.h>
@@ -57,7 +60,9 @@
 #include <wx/timer.h>
 #include <wx/treectrl.h>
 //*)
+#ifdef USESERIAL
 extern Tserial *BTComPort;
+#endif
 
 class BluetoothFrame: public wxFrame
 {
@@ -70,11 +75,9 @@ public:
  void HddToSdCpy(wxString dest, wxString file);
  void SDToHddCpy(wxString dest, wxString file);
 
-#if defined(USE_DDE_LINK)
-// DDE exchange
- wxString ddeResponce;
- void DdeLink();
- bool DdeConnectTo(wxString ExtServerName);
+#if defined(USE_TCP_LINK)
+ void TcpLink();
+ bool TcpConnectTo(wxString ExtServerName);
 #endif
 
  //(*Declarations(BluetoothFrame)
@@ -121,8 +124,8 @@ protected:
  wxString uCLI;
  void ConnectBTCom(wxString name);
  wxString sendCmdAndWaitForResp(wxString BTcommand, wxString* BTanwser);
+
  // D & D
- wxDropSource dragSource;
  wxDragResult dragResult;
 
  wxString getAndShowRam();
@@ -131,6 +134,8 @@ protected:
  void Populate_Dir(wxTreeItemId * dir);
  void OnSdPopupChoice(wxCommandEvent& event);
  void SdDeleteFile(wxString file);
+ void OnDirCtrlBeginDrag(wxTreeEvent& event);
+
 
 private:
 
@@ -145,59 +150,63 @@ private:
  void OnTctrlSdItemRightClick(wxTreeEvent& event);
  //*)
 
- void OnDirCtrlBeginDrag(wxTreeEvent& event);
-
  DECLARE_EVENT_TABLE()
 };
 
-#if defined(USE_DDE_LINK)
-class DdeConnectionOut: public wxConnection
+#if defined(USE_TCP_LINK)
+ wxString tcpResponce;
+
+class TcpConnectionOut: public wxTCPConnection
 {
 public:
- DdeConnectionOut() {};
- ~DdeConnectionOut() {};
+ TcpConnectionOut() {};
+ ~TcpConnectionOut() {};
  //virtual bool OnDisconnect();
 };
 
-class DdeConnectionIn: public wxConnection
+ extern TcpConnectionOut * dynTcpConnectionOut;
+ extern wxString TcpTopicName;
+
+class TcpConnectionIn: public wxTCPConnection
 {
 public:
- DdeConnectionIn(BluetoothFrame * tFrame) {bluetoothFrame = tFrame;};
- ~DdeConnectionIn() {};
+ TcpConnectionIn(BluetoothFrame * tFrame) {bluetoothFrame = tFrame;};
+ ~TcpConnectionIn() {};
  virtual bool OnPoke(const wxString &topic, const wxString &item, const void *data, size_t size, wxIPCFormat format);
 private:
  BluetoothFrame * bluetoothFrame;
 };
 
-class DdeServer: public wxServer
+class TcpServer: public wxTCPServer
 {
 public:
- DdeServer(BluetoothFrame * tFrame):wxServer() {bluetoothFrame = tFrame;};
+ TcpServer(BluetoothFrame * tFrame):wxTCPServer() {bluetoothFrame = tFrame;};
  virtual wxConnectionBase * OnAcceptConnection(const wxString& topic);
 private:
  BluetoothFrame * bluetoothFrame;
 };
 
-class DdeClient: public wxClient
+class TcpClient: public wxTCPClient
 {
 public:
  virtual wxConnectionBase * OnMakeConnection(void)
  {
-  return (wxConnectionBase *)new DdeConnectionOut;
+  return (wxConnectionBase *)new TcpConnectionOut;
  };
 };
 #endif
+
 class DnD_TctrlSd_Txt : public wxTextDropTarget
 {
 public:
  DnD_TctrlSd_Txt(BluetoothFrame * BluetoothFrame_P)
  {
-  BluetoothFrame = BluetoothFrame_P;
+  bluetoothFrame = BluetoothFrame_P;
  }
- virtual bool OnDropText(wxCoord x, wxCoord y, const wxString& text) wxOVERRIDE;
+ virtual bool OnDropText(wxCoord x, wxCoord y, const wxString& text) override;
 
 private:
- BluetoothFrame * BluetoothFrame;
+ BluetoothFrame * bluetoothFrame;
 };
 
 class DnD_DirCtrl_Txt : public wxTextDropTarget
@@ -205,12 +214,12 @@ class DnD_DirCtrl_Txt : public wxTextDropTarget
 public:
  DnD_DirCtrl_Txt(BluetoothFrame * BluetoothFrame_P)
  {
-  BluetoothFrame = BluetoothFrame_P;
+  bluetoothFrame = BluetoothFrame_P;
  }
- virtual bool OnDropText(wxCoord x, wxCoord y, const wxString& text) wxOVERRIDE;
+ virtual bool OnDropText(wxCoord x, wxCoord y, const wxString& text) override;
 
 private:
- BluetoothFrame * BluetoothFrame;
+ BluetoothFrame * bluetoothFrame;
 };
 
 
@@ -239,16 +248,24 @@ wxFile *FileOpenForRead(char *FullFileName);
 #define FILE_CLOSE(fd)                     fd->Close()
 #define FILE_DELETE(FullFileName)          delete_file(( char *)FullFileName)
 
+#ifdef USESERIAL
 #define BTRXFIFOAVAILABLE                  (BTComPort->available())
 #define BTRXFIFOPOP                        BTComPort->read()
 #define BTSERPRINT(x)                      BTComPort->write(x)
 #define BTSERPRINT2(x,y)                   BTComPort->write(x,y)
 #define BTSERFLUSHRX()                     BTComPort->flush()
+#else
+#define BTRXFIFOAVAILABLE (tcpResponce.size() > 0)
+#define BTRXFIFOPOP       tcpResponce.GetChar(1);tcpResponce.Truncate(1);wxYieldIfNeeded()
+#define BTSERPRINT(x)     dynTcpConnectionOut->Poke(TcpTopicName,wxString::FromAscii(x));wxYieldIfNeeded()
+#define BTSERPRINT2(x,y)  wxString tmp = ""; for(int i=0; i<y; i++){tmp.Append(x);}dynTcpConnectionOut->Poke(TcpTopicName,tmp);wxYieldIfNeeded()
+#define BTSERFLUSHRX()    tcpResponce.clear();
+#endif // USESERIAL
 
-#define DELAY_MS(ms)                       wxMilliSleep(ms)
+#define DELAY_MS(ms)                       wxMilliSleep(ms);wxYieldIfNeeded()
 #define GET_TICK()                         (uint16_t)(clock()/10)
 
-#define YIELD_TO_PRIO_TASK()               Sleep(1);wxYieldIfNeeded()
+#define YIELD_TO_PRIO_TASK()               wxYieldIfNeeded()
 #define XMODEM_PACKET_SIZE 128
 
 PACK(typedef struct
