@@ -947,7 +947,7 @@ endif
 ifeq ($(EXT), $(filter $(EXT), FRSKY ))
   CPPDEFS += -DFRSKY
   CPPSRC += telemetry/frsky.cpp
-  CPPSRC += telemetry/ibus.cpp
+
   GUIMODELSRC +=  gui/menu_model_telemetry.cpp
 
   CPPSRC += gui/view_telemetry.cpp
@@ -1117,7 +1117,7 @@ MSG_CLEANING = Cleaning project:
 # Add target processor to flags.
 
 CPPFLAGS += -DFLAVOUR=\"$(FLAVOUR)\"
-AVRCPPFLAGS = -mmcu=$(MCU) -I. -x c++ -O$(OPT) $(CPPFLAGS) $(INCFLAGS) $(GENDEPFLAGS) -fwhole-program -mstrict-X
+AVRCPPFLAGS = -mmcu=$(MCU) -I. -x c++ -std=gnu++14 -O$(OPT) $(CPPFLAGS) $(INCFLAGS) $(GENDEPFLAGS) -fwhole-program -mstrict-X
 
 
 .SECONDARY:

@@ -248,6 +248,14 @@ getvalue_t getValue(mixsrc_t i)
   else if (i==MIXSRC_FIRST_TELEM-1+TELEM_VSPEED) return telemetryData.value.varioSpeed;
   else if (i==MIXSRC_FIRST_TELEM-1+TELEM_ASPEED) return telemetryData.value.airSpeed;
   else if (i==MIXSRC_FIRST_TELEM-1+TELEM_DTE) return telemetryData.value.dTE;
+#if defined(GPS)
+  // GPS time source used by the custom telemetry field "Tmps".
+  // The individual hour/minute/second fields are already filled by the
+  // telemetry protocol decoder. Expose HHMM here so TELEM_GPS_TIME is no
+  // longer returned as zero by getValue().
+  else if (i==MIXSRC_FIRST_TELEM-1+TELEM_GPS_TIME)
+    return ((uint16_t)telemetryData.value.hour * 100U) + telemetryData.value.min;
+#endif
   else if (i<=MIXSRC_FIRST_TELEM-1+TELEM_MIN_A1) return telemetryData.analog[TELEM_ANA_A1].min;
   else if (i==MIXSRC_FIRST_TELEM-1+TELEM_MIN_A2) return telemetryData.analog[TELEM_ANA_A2].min;
   else if (i<=MIXSRC_FIRST_TELEM-1+TELEM_CSW_MAX) return *(((int16_t*)(&telemetryData.value.minAltitude))+i-(MIXSRC_FIRST_TELEM-1+TELEM_MIN_ALT));

@@ -350,7 +350,22 @@ bool displayNumbersTelemetryScreen(telemetryScreenData & screen)
         getvalue_t value = getValue(MIXSRC_FIRST_TELEM+field-1);
         uint8_t att = (i==3 ? NO_UNIT : DBLSIZE|NO_UNIT);
         coord_t pos[] = {0, 65, 130};
-        lcdPutsTelemetryChannelValue(pos[j+1]-2, FH+2*FH*i, field-1, value, att);
+
+#if defined(GPS)
+        // TELEM_GPS_TIME ("Tmps") remains a normal numeric telemetry source
+        // through getValue() (HHMM), but is displayed here as HH:MM.
+        if (field == TELEM_GPS_TIME) {
+          coord_t x = pos[j] + 4*FW + 2;
+          coord_t y = FH + 2*FH*i;
+          lcdDrawNumberNAtt(x, y, telemetryData.value.hour, LEFT|LEADING0, 2);
+          lcdDrawCharAtt(x + 2*FW, y, ':', 0);
+          lcdDrawNumberNAtt(x + 3*FW, y, telemetryData.value.min, LEFT|LEADING0, 2);
+        }
+        else
+#endif
+        {
+          lcdPutsTelemetryChannelValue(pos[j+1]-2, FH+2*FH*i, field-1, value, att);
+        }
 
         if (field >= TELEM_TIMER1 && field <= TELEM_TIMER_MAX && i!=3) {
           // there is not enough space on LCD for displaying "Tmr1" or "Tmr2" and still see the - sign, we write "T1" or "T2" instead
