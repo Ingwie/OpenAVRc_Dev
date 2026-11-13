@@ -38,6 +38,12 @@
 #include <wx/fileconf.h>
 #include <wx/dcclient.h>
 
+#include <cstdint>
+
+#if defined(__UNIX__)
+  #include "OpenAVRc.xpm" // icone file
+#endif
+
 #define LCD_W 128
 #define LCD_H 64
 #define SPLASHLENGHT 1026

@@ -557,7 +557,7 @@ void OpenAVRc_DesktopFrame::OnEcrirelesFuseesSelected(wxCommandEvent& event)// W
   susto->SetEventHandler(susto);
   if (susto->ShowModal()!= wxID_OK)
     return;
-  wxString FUSES(" -F -e -Ulfuse:w:0xFF:m -Uhfuse:w:0xD0:m -Uefuse:w:0xFD:m -v");
+  wxString FUSES(" -F -e -u -Ulfuse:w:0xFF:m -Uhfuse:w:0xD8:m -Uefuse:w:0xFD:m -v");
   wxString dude_send = (keepopen+avrdudepath +dude_c+dude_programmer +dude_p+dude_type +dude_P+dude_port +FUSES);
   wxExecute(dude_send);
 }
@@ -1067,6 +1067,7 @@ void OpenAVRc_DesktopFrame::OnButtonGenerateurClick(wxCommandEvent& event)
 
 void OpenAVRc_DesktopFrame::OnButtonCarteSDClick(wxCommandEvent& event)
 {
+#ifndef __UNIX__
   wxArrayString DriveList;
 
   wxFSVolume DriveSearch;
@@ -1130,8 +1131,9 @@ void OpenAVRc_DesktopFrame::OnButtonCarteSDClick(wxCommandEvent& event)
       wxBusyInfo wait(_("Copie en cours, attendez SVP......"));
     }
   }
-  Sleep(500);
+  wxMilliSleep(500);
   DrawLbmSplash();
+#endif // __UNIX__
 }
 
 void OpenAVRc_DesktopFrame::OnChoiceLangueSelect(wxCommandEvent& event)
@@ -1145,7 +1147,7 @@ void OpenAVRc_DesktopFrame::OnMenuChoiceVoiceSelected(wxCommandEvent& event)
   if (wxSetWorkingDirectory(AppPath))
     wxExecute("CMD /c" + AppPath + "\\tools\\tts.exe -V ->voices.txt", wxEXEC_HIDE_CONSOLE | wxEXEC_SYNC);
   Ini_Changed = true;
-  Sleep(500);
+  wxMilliSleep(500);
   Voice_choice* voiceChoiceFrame = new Voice_choice(this);
   voiceChoiceFrame->Show(TRUE);
   MenuBar_main->Enable(ID_MENUVOICECHOICE, false);

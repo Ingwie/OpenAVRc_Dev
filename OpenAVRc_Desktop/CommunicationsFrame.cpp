@@ -179,6 +179,7 @@ void CommunicationsFrame::OnButtonDetectClick(wxCommandEvent& event)
 wxString CommunicationsFrame::DetectSerial()
 {
     wxString lateststr;
+#ifdef USESERIAL
     TCHAR Devices [5000];
     for(int i=0; i<255; i++) // checking ports from COM0 to COM255
     {
@@ -192,6 +193,7 @@ wxString CommunicationsFrame::DetectSerial()
             ComboBox2->Insert(ComName,0); // add to the ComboBox
         }
     }
+#endif // USESERIAL
     return lateststr;
 }
 
