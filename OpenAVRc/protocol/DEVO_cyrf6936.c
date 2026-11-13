@@ -83,7 +83,7 @@
 #define DEVO_RFSTATE             BYTE_P2M(1)
 #define DEVO_CH_IDX_P2M          BYTE_P2M(2)
 #define DEVO_REC_SEQ_P2M         BYTE_P2M(3)
-#define DEVO_SEND_SEQ_P2M        BYTE_P2M(4)
+#define DEVO_XANY_HOLD_CNT_P2M   BYTE_P2M(4) // X-Any DEVO: 4 scheduler calls + 1 hold cycle
 #define DEVO_PACKET_COUNT_P2M    BYTE_P2M(5)
 #define DEVO_NUM_CHAN_P2M        BYTE_P2M(6)
 #define DEVO_PREV_NUM_CHAN_P2M   BYTE_P2M(7)
@@ -306,15 +306,64 @@ static void DEVO_build_bind_pkt()
 static void DEVO_build_data_pkt()
 {
 #if defined(X_ANY)
-  //Xany_scheduleTx_AllInstance(); TODO DEVO_CH_IDX_P2M check
+  /*
+   * DEVO receivers refresh their PWM outputs close to 20 ms. With 7/8 DEVO
+   * channels, X-Any is normally scheduled every 4.8 ms; Repeat=3 therefore
+   * keeps one symbol for only 19.2 ms. The relative phase then slowly drifts
+   * and some symbols can be missed.
+   *
+   * Keep the normal four X-Any scheduler calls, then hold the fourth symbol
+   * for one extra DEVO channel cycle. This gives about 24 ms per X-Any symbol
+   * without changing Xany.cpp or the behaviour of normal DEVO channels.
+   *
+   * The counter uses the shared P2M byte previously reserved for the old
+   * DEVO_SEND_SEQ state. The held excursions must survive mixer updates, so
+   * only these X_ANY values need persistent storage.
+   */
+  static int16_t XanyDevoHold[X_ANY];
+
+  if (DEVO_CH_IDX_P2M == 0 && DEVO_BIND_COUNTER_16_P2M == 0)
+    {
+      if (DEVO_XANY_HOLD_CNT_P2M < 4)
+        {
+          Xany_scheduleTx_AllInstance();
+          for (uint8_t x = 0; x < X_ANY; x++)
+            if (g_model.Xany[x].Active)
+              XanyDevoHold[x] = channelOutputs[g_model.Xany[x].ChId];
+          DEVO_XANY_HOLD_CNT_P2M++;
+        }
+      else
+        {
+          // Fifth cycle: keep the last scheduled symbol, do not advance X-Any.
+          DEVO_XANY_HOLD_CNT_P2M = 0;
+        }
+    }
 #endif
 
   packet_p2M[0] = (DEVO_NUM_CHAN_P2M << 4) | (0x0b + DEVO_CH_IDX_P2M);
   uint8_t sign = 0x0b;
   for (uint8_t i = 0; i < 4; i++)
     {
-      int16_t value = FULL_CHANNEL_OUTPUTS(i + (4* DEVO_CH_IDX_P2M));
-      value = value + (value >> 1) + (value >> 4); // Range +/- 1600.
+      uint8_t ch = i + (4 * DEVO_CH_IDX_P2M);
+      int16_t value = FULL_CHANNEL_OUTPUTS(ch);
+#if defined(X_ANY)
+      uint8_t isXany = 0;
+
+      // A configured X-Any channel uses the held X-Any excursion, never the
+      // mixer value, so the extra hold cycle cannot be overwritten.
+      for (uint8_t x = 0; x < X_ANY; x++)
+        if (g_model.Xany[x].Active && g_model.Xany[x].ChId == ch)
+          {
+            value = XanyDevoHold[x];
+            isXany = 1;
+            break;
+          }
+
+      if (isXany)
+        value <<= 1; // X-Any needs the full ~1024..1976 us DEVO PWM range.
+      else
+#endif
+        value = value + (value >> 1) + (value >> 4); // Normal DEVO range +/-1600.
 
       if(value < 0)
         {
@@ -725,7 +774,7 @@ void DEVOInit(uint8_t bind)
 {
   DEVO_CH_IDX_P2M = 0;
   DEVO_REC_SEQ_P2M = 0;
-  DEVO_SEND_SEQ_P2M = 0;
+  DEVO_XANY_HOLD_CNT_P2M = 0;
   DEVO_PACKET_COUNT_P2M = 0;
   DEVO_FAILSAFE_PKT_P2M = 0;
   DEVO_TELEM_STATE_P2M = 0;

@@ -64,7 +64,10 @@ void loadDataFromModule()
 
   IF_NO_ERROR(bluetooth_getPswd(ReBuff.bluetooth.pin_str, sizeof(ReBuff.bluetooth.pin_str), BT_GET_TIMEOUT_MS))
   {
-   str2zchar(ReBuff.bluetooth.pin_zchar, ReBuff.bluetooth.pin_str, sizeof(ReBuff.bluetooth.pin_zchar));
+   // Skip leading quote returned by AT+PSWD?
+   const char *pin = ReBuff.bluetooth.pin_str;
+   if (*pin == '"') pin++;
+   str2zchar(ReBuff.bluetooth.pin_zchar, pin, sizeof(ReBuff.bluetooth.pin_zchar));
 
    for (uint8_t i=0; i < 5 ; ++i)
     {
