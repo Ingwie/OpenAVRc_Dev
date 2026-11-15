@@ -407,7 +407,7 @@ static void DSM_build_data_packet(uint8_t upper)
       uint16_t value = 0xffff;;
       if (idx != 0xff)
         {
-          int16_t pvalue = FULL_CHANNEL_OUTPUTS(i);
+          int16_t pvalue = FULL_CHANNEL_OUTPUTS(idx);
           pvalue -= (pvalue>>2); // x-x/4 -> Range -1024..+1024 @ 125%
           pvalue += 1024;
           value=limit<uint16_t>(1, pvalue, 2046);
