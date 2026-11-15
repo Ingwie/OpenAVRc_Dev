@@ -772,12 +772,6 @@ uint16_t DEVO_cb()
 
 void DEVOInit(uint8_t bind)
 {
-  DEVO_CH_IDX_P2M = 0;
-  DEVO_REC_SEQ_P2M = 0;
-  DEVO_XANY_HOLD_CNT_P2M = 0;
-  DEVO_PACKET_COUNT_P2M = 0;
-  DEVO_FAILSAFE_PKT_P2M = 0;
-  DEVO_TELEM_STATE_P2M = 0;
   DEVO_USE_FIXED_ID_P2M = USE_FIXED_ID ? 1 : 0;
 
   DEVO_NUM_CHAN_P2M = g_model.rfOptionValue1;
