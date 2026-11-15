@@ -1155,14 +1155,6 @@ static void MLINK_initialize(uint8_t bind)
   MLINK_generate_channels();
   MLINK_init();
 
-  MLINK_PACKET_COUNT_P2M = 0U;
-  MLINK_HOP_NO_P2M = 0U;
-  MLINK_TOGGLE_P2M = 0U;
-
-  // Clear packed FAST GPS scratch flags/data-high bits.
-  MLINK_FAST_LAT_LO_H_P2M = 0U;
-  MLINK_FAST_LON_LO_H_P2M = 0U;
-
   if (bind)
   {
     // Load bind Data Code through P2M scratch; no persistent SRAM buffer.
