@@ -300,5 +300,21 @@ void checkMaxTemperature1();
 void manageGpsFix();
 void setMinMaxAltitude();
 
+union
+{
+  struct
+  {
+    uint8_t unused_1;
+    uint8_t unused_2;
+    uint8_t unused_3;
+  } frsky;
+  struct
+  {
+   	uint8_t cell_instance_base;
+	uint8_t temp1_instance;
+	uint8_t temp2_instance;
+  } ibus;
+} telem_vars;
+
 
 #endif
