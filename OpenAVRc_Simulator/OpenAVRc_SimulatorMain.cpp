@@ -759,6 +759,9 @@ void OpenAVRc_SimulatorFrame::MainFirmwareTask()
       StatusBar->SetStatusText(_T("MAIN ")+MaintTaskChronoval.ToString()+_T(" uS"),1);
       TimerMain.StartOnce(TIMER_MAIN_TIME);
       MainFWThread = new MainFirmwareThread();
+#if defined(USE_TCP_LINK)
+      if(uCliFr)  uCliFr->TcpSendBufferIfNeeded();
+#endif
     }
   }
 }
@@ -774,9 +777,6 @@ void OpenAVRc_SimulatorFrame::OnTimer10msTrigger(wxTimerEvent& event)
           EE_READY_vect(); // simulate eeprom write ISR
         }
     }
-#if defined(USE_TCP_LINK)
-  if(uCliFr)  uCliFr->TcpSendBufferIfNeeded();
-#endif
   if (ISR10msLoop_is_runing) // Avoid re-entrance
   {
     Timer10ms.StartOnce(TIMER_10_MS_TIME/5); // whait
