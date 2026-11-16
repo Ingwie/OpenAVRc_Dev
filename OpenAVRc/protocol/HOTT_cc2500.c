@@ -1497,10 +1497,6 @@ static uint16_t HOTT_cb()
 static void HOTT_initialize(uint8_t bind)
 {
  HOTT_BIND_P2M = bind;
- HOTT_MIX_SWAP_P2M = 0;
- HOTT_CH_UPPER_P2M = 0;
- HOTT_HOP_FREQ_NO_P2M = 0;
- HOTT_RF_CH_NUM_P2M = 0;
  CC2500_Reset();
  loadrfidaddr();
  srandom(g_eeGeneral.fixed_ID.ID_32);
