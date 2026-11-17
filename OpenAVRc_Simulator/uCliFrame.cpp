@@ -174,9 +174,9 @@ void uCliFrame::HwSerialByte(uint8_t c, wxColor color)
     }
   }*/
 #if defined(USE_TCP_LINK)
- if ((c == '\n') && (dynTcpConnectionOut != NULL) && !(BT_IS_IN_AT_MODE))
+ if ((dynTcpConnectionIn != NULL) && (dynTcpConnectionOut != NULL) && !(BT_IS_IN_AT_MODE))
   {
-    TcpDataOut = TextCtrl->GetLineText(TextCtrl->GetNumberOfLines()-2);
+    TcpDataOut.append((char)c);
   }
 #endif
  if ((c == '\n') && (SimuBTComIsValid) && BT_POWER_IS_ON())
@@ -376,13 +376,11 @@ bool TcpConnectionIn::OnPoke(const wxString &topic, const wxString &item, const 
 
  void uCliFrame::TcpSendBufferIfNeeded()
 {
-
  if ((TcpDataOut.Len() > 0) && (dynTcpConnectionOut != NULL))
   {
    dynTcpConnectionOut->Poke(TcpTopicName,TcpDataOut);
-   //_delay_ms(150);
+   TcpDataOut.clear();
    wxYieldIfNeeded();
-   TcpDataOut = "";
   }
 }
 #endif
