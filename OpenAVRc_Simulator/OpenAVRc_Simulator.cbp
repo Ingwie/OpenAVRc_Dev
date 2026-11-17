@@ -26,11 +26,11 @@
 					<Add option="-DDEBUG=YES" />
 					<Add option="-DTRANSLATIONS_FR" />
 					<Add option="-DTTS_FR" />
+					<Add option="-DUSE_TCP_LINK" />
 					<Add option="-DEXTERNALEEPROM" />
 					<Add option="-DIMPERIAL_UNITSaaa" />
 					<Add option="-DLCDROT180aaa" />
 					<Add option="-DPWM_BACKLIGHTaaa" />
-					<Add option="-DUSE_TCP_LINK" />
 					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
 				</Compiler>
 				<ResourceCompiler>
@@ -317,9 +317,6 @@
 					<Add option="-DUSE_TCP_LINK" />
 					<Add directory="/usr/lib/x86_64-linux-gnu" />
 				</Compiler>
-				<ResourceCompiler>
-					<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/lib/gcc_dll/mswu" />
-				</ResourceCompiler>
 				<Linker>
 					<Add option="-m64" />
 					<Add option="`wx-config --libs`" />
@@ -481,7 +478,7 @@
 			<Add option="-DCRSF=3" />
 			<Add option="-DSBUS=4" />
 			<Add option="-DSUMD=5" />
-			<Add option="-DSERIAL_PROTOCOL=MULTIMODULE" />
+			<Add option="-DSERIAL_PROTOCOL=CRSF" />
 			<Add directory="$(CODEBLOCKS)/wxWidgets-3.1.0/include" />
 			<Add directory="$(PROJECT_DIR)" />
 		</Compiler>
@@ -548,6 +545,8 @@
 		<Unit filename="../OpenAVRc/gui/popups.h" />
 		<Unit filename="../OpenAVRc/gui/splash.cpp" />
 		<Unit filename="../OpenAVRc/gui/view_main.cpp" />
+		<Unit filename="../OpenAVRc/gui/view_qr.cpp" />
+		<Unit filename="../OpenAVRc/gui/view_qr.h" />
 		<Unit filename="../OpenAVRc/gui/view_statistics.cpp" />
 		<Unit filename="../OpenAVRc/gui/view_telemetry.cpp" />
 		<Unit filename="../OpenAVRc/gui/view_text.cpp" />
@@ -658,6 +657,11 @@
 			<Option link="0" />
 		</Unit>
 		<Unit filename="../OpenAVRc/protocol/J6PRO_cyrf6936.c">
+			<Option compilerVar="CC" />
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="../OpenAVRc/protocol/MLINK_cyrf6936.c">
 			<Option compilerVar="CC" />
 			<Option compile="0" />
 			<Option link="0" />
@@ -788,6 +792,8 @@
 		<Unit filename="../OpenAVRc/targets/simu/simu_interface.h" />
 		<Unit filename="../OpenAVRc/telemetry/frsky.cpp" />
 		<Unit filename="../OpenAVRc/telemetry/frsky.h" />
+		<Unit filename="../OpenAVRc/telemetry/ibus.cpp" />
+		<Unit filename="../OpenAVRc/telemetry/ibus.h" />
 		<Unit filename="../OpenAVRc/templates.cpp" />
 		<Unit filename="../OpenAVRc/templates.h" />
 		<Unit filename="../OpenAVRc/thirdparty/xmodem/xmodem.cpp" />

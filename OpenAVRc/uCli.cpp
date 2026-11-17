@@ -127,9 +127,8 @@ void uCli_process(void)
          uCliPrompt();
          if(execCmdLine(ReBuff.uCliCmdLine) == -1)
           {
-           BT_Ser_Println(PSTR("err: unknown cmd"));
+           uCliPrompt();BT_Ser_Println(PSTR("err: unknown cmd"));
           }
-         uCliPrompt();
         }
        else
         {
@@ -406,7 +405,7 @@ static int8_t uCli_Cmd_ram(const char ** argv, uint8_t argc)
   char buf[4];
   uint16_t ram = stackAvailable();
 
-  for(int8_t i = sizeof(buf); (i);)
+  for(uint8_t i = sizeof(buf); (i);)
   {
    buf[--i] = (ram % 10) + '0';
    ram /= 10;
