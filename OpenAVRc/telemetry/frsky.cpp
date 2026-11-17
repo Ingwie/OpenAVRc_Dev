@@ -264,21 +264,20 @@ void checkOffsetAndMaxCurrent()
     telemetryData.value.maxCurrent = telemetryData.value.current;
 }
 
+
 void processSportPacket(uint8_t *sport_packet)
 {
   /* uint8_t  dataId = sport_packet[0]; */
   uint8_t  prim   = sport_packet[1];
   uint16_t appId  = *((uint16_t *)(sport_packet+2));
 
+
   if (!IS_SPIMODULES_PROTOCOL(g_model.rfProtocol))
     {
       if (!checkSportPacket(sport_packet)) // check only in serial mode, in SPI mode this test is already done
-        {
-          return;
-        }
-      frskyStreaming = frskyStreaming ? FRSKY_TIMEOUT10ms : FRSKY_TIMEOUT_FIRST; // Reset counter only in serial mode
-      // frskyStreaming gets decremented every 10ms, FRSKY_TIMEOUT_FIRST value is detected to play connection prompt.
+           return;
     }
+
 #if defined(SIMU) // decrement frskyStreaming in simu for spi protocols
   if (IS_SPIMODULES_PROTOCOL(g_model.rfProtocol))
     frskyStreaming = frskyStreaming ? FRSKY_TIMEOUT10ms : FRSKY_TIMEOUT_FIRST; // Reset counter only in serial mode
@@ -298,6 +297,14 @@ void processSportPacket(uint8_t *sport_packet)
       }
       else
         telemetryData.rssi[0].set(SPORT_DATA_U8(sport_packet));
+
+      if (!IS_SPIMODULES_PROTOCOL(g_model.rfProtocol)) // Only for Serial Modules using SmartPORT (XJT CRSF/ELRS).
+      {
+        if (! frskyStreaming && telemetryData.rssi[0].value)
+    	  frskyStreaming = FRSKY_TIMEOUT_FIRST; // Telemetry Found.
+        else if (telemetryData.rssi[0].value)
+          frskyStreaming = FRSKY_TIMEOUT10ms; // Top up bucket, implicit do not.
+      }
     }
     else if (appId == X_SWR_ID && (!IS_MULTIMODULE_PROTOCOL (s_current_protocol)))
       telemetryData.rssi[1].set(SPORT_DATA_U8(sport_packet));
@@ -485,6 +492,7 @@ void processSportPacket(uint8_t *sport_packet)
     }
     }
 }
+
 
 void frskyDProcessPacket(uint8_t *d_packet)
 {
@@ -758,6 +766,7 @@ void parseTelemWSHowHighByte(uint8_t byte)
 #endif
 
 
+
 void telemetryInterrupt10ms()
 {
   if (IS_USR_PROTO_IBUS())
@@ -834,6 +843,7 @@ void telemetryInterrupt10ms()
         {
           telemetryData.value.maxPower = telemetryData.value.power;
         }
+
 #if defined(VOICE)
       if (frskyStreaming == FRSKY_TIMEOUT_FIRST)
         {
@@ -853,16 +863,19 @@ void telemetryInterrupt10ms()
     }
 #endif
 
+
   if (frskyStreaming)
-    {
-      --frskyStreaming;
-    }
+  {
+    --frskyStreaming;
+  }
   else
-    {
-      telemetryData.rssi[0].set(0);
-      telemetryData.rssi[1].set(0);
-    }
+  {
+    telemetryData.rssi[0].set(0);
+    telemetryData.rssi[1].set(0);
+  }
+
 }
+
 
 void frskyUpdateCells()
 {
