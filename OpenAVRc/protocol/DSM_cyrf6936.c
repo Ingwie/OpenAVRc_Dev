@@ -93,7 +93,7 @@
 
 const static RfOptionSettingsvar_t RfOpt_DSM_Ser[] PROGMEM =
 {
-  /*rfProtoNeed*/PROTO_NEED_SPI | BOOL1USED | BOOL2USED, // BOOL1=Telemetry, BOOL2=Autobind
+  /*rfProtoNeed*/PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED, // BOOL1=Telemetry, BOOL2=Autobind, BOOL3=Max Throw
   /*rfSubTypeMax*/4,
   /*rfOptionValue1Min*/4,    // Number of channels
   /*rfOptionValue1Max*/12,
@@ -381,7 +381,19 @@ static void DSM_update_channels()
 static void DSM_build_data_packet(uint8_t upper)
 {
 #if defined(X_ANY)
-  if (!upper) Xany_scheduleTx_AllInstance();
+  // Keep the X-Any symbol inside the DSM protocol so mixer.cpp can stay stock.
+  static int16_t XanyHold[X_ANY];
+
+  // Advance X-Any only once, at the beginning of a new DSM A/B cycle.
+  if(DSM_RFSTATE == DSM_CH1_WRITE_A)
+    {
+      Xany_scheduleTx_AllInstance();
+      for(uint8_t x = 0; x < X_ANY; x++)
+        {
+          if(g_model.Xany[x].Active)
+            XanyHold[x] = channelOutputs[g_model.Xany[x].ChId];
+        }
+    }
 #endif
   uint8_t bits = 11;
 
@@ -408,9 +420,44 @@ static void DSM_build_data_packet(uint8_t upper)
       if (idx != 0xff)
         {
           int16_t pvalue = FULL_CHANNEL_OUTPUTS(idx);
-          pvalue -= (pvalue>>2); // x-x/4 -> Range -1024..+1024 @ 125%
-          pvalue += 1024;
-          value=limit<uint16_t>(1, pvalue, 2046);
+#if defined(X_ANY)
+          uint8_t isXany = 0;
+          for(uint8_t x = 0; x < X_ANY; x++)
+            {
+              if(g_model.Xany[x].Active && g_model.Xany[x].ChId == idx)
+                {
+                  isXany = 1;
+
+                  // Use the X-Any value captured at DSM_CH1_WRITE_A.
+                  // It remains unchanged for both RF copies and for frame B.
+                  pvalue = (int16_t)(((int32_t)XanyHold[x] * RESX) / 952L);
+                  pvalue = (int16_t)(((int32_t)pvalue * 8L) / 10L + 1024L);
+                  value = (uint16_t)limit<int16_t>(1, pvalue, 2046);
+                  break;
+                }
+            }
+
+          if(!isXany)
+#endif
+            {
+              /*
+               * DSM Max Throw option.
+               *
+               * OFF: keep the historical OpenAVRc DSM normal throw exactly
+               *      as before.
+               *
+               * ON : remove only the historical 75% reduction and use the
+               *      full OpenAVRc channel excursion.
+               *
+               * X-Any never enters this block: its exact symbol amplitudes
+               * must remain unchanged.
+               */
+              if(!g_model.rfOptionBool3)
+                pvalue -= (pvalue>>2); // Historical OpenAVRc normal throw
+
+              pvalue += 1024;
+              value = (uint16_t)limit<int16_t>(1, pvalue, 2046);
+            }
 
           if(bits==10)
             value>>=1;
@@ -590,6 +637,11 @@ static void DSM_apply_auto_bind_response(const uint8_t *buf)
     }
 
   g_model.rfOptionValue1 = channels;
+
+  // AUTO has now become the real DSM subtype detected from the receiver.
+  // Persist both subtype and channel count so the receiver reconnects
+  // after a transmitter power cycle without rebinding.
+  eeDirty(EE_MODEL);
 
   // Rebuild the channel map now that AUTO has become a real subtype.
   DSM_update_channels();
@@ -1316,6 +1368,7 @@ static uint16_t DSM_cb()
           if(g_model.rfSubType == DSM_AUTO)
             {
               g_model.rfSubType = DSMX_22;
+              eeDirty(EE_MODEL);
               DSM_update_channels();
               DSM_CH_IDX_P2M = 0;
               DSM_calc_dsmx_channel();
@@ -1339,7 +1392,7 @@ static uint16_t DSM_cb()
     case DSM_CH1_WRITE_B:
     case DSM_CH2_WRITE_A:
     case DSM_CH2_WRITE_B:
-      DSM_build_data_packet(DSM_RFSTATE == DSM_CH1_WRITE_B||DSM_RFSTATE == DSM_CH2_WRITE_B);	// build lower or upper channels
+      DSM_build_data_packet(DSM_RFSTATE == DSM_CH1_WRITE_B || DSM_RFSTATE == DSM_CH2_WRITE_B); // build lower or upper channels
       CYRF_ReadRegister(CYRF_04_TX_IRQ_STATUS);		// clear IRQ flags
       CYRF_WriteDataPacket(packet_p2M);
       DSM_RFSTATE++;										// change from WRITE to CHECK mode
@@ -1507,7 +1560,7 @@ const void *DSM_Cmds(enum ProtoCmds cmd)
                           STR_RFPOWER,       //Rf power
                           STR_TELEMETRY,     //OptionBool 1
                           STR_AUTOBIND,      //OptionBool 2
-                          STR_DUMMY          //OptionBool 3
+                          STR_MULTI_MAX_THROW //OptionBool 3
                          );
       return 0;
     default:
