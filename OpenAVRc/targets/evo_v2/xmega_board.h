@@ -1,7 +1,7 @@
 /*
  * Authors (alphabetical order)
  *
- * - Rick Kilvington (2018).
+ * - Rich Kilvington (2018).
  *
  */
 
@@ -123,8 +123,6 @@
 #define RF_OUT_PIN                 3
 #define RF_OUT_PIN_CTRL_REG        token_paste3(RF_PORT.PIN, RF_OUT_PIN, CTRL) // e.g. "PORTx.PINnCTRL"
 
-#define DEBUG_PIN_HIGH             PORTB.OUTSET = PIN6_bm; // set mpx rf enable pin as high / debug.
-#define DEBUG_PIN_LOW              PORTB.OUTCLR = PIN6_bm; // set mpx rf enable pin as low / debug.
 
 void setup_rf_tc(void);
 void rf_usart_serial_init(void);
@@ -281,7 +279,7 @@ void read_trim_matrix(void);
 #define SPI_8M()                MSPI_16M(SDCARD_SPI)
 #define SPI_250K()              MSPI_250K(SDCARD_SPI)
 #define SPI_START_SPEED()       SPI_250K()
-#define LEDON() //   {PORTD.OUTTGL = PIN6_bm;}
+#define LEDON()    {}
 #define LEDOFF()   {}
 
 // SPI general.
@@ -357,6 +355,13 @@ void EEPROM_FlushBuffer(void);
 #define BT_POWER_OFF()            (PORTB.OUTCLR = PIN6_bm)
 #define BT_POWER_IS_ON()          (PORTB.IN & PIN6_bm)
 #endif
+
+// SPARE PINS :)
+// PD6 (Test Point 6)
+// PF5 (Test Point 5)
+//#define DEBUG_PIN_HIGH             PORTB.OUTSET = PIN6_bm;
+//#define DEBUG_PIN_LOW              PORTB.OUTCLR = PIN6_bm;
+
 
 #if !defined(SIMU)
 #if defined(EXTERNALEEPROM)

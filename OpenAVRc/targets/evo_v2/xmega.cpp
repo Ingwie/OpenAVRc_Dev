@@ -220,8 +220,9 @@ inline void boardInit()
   InitVoiceUartTx();
 #endif
 
-  PORTB.DIRSET = PIN6_bm; // set mpx rf enable as output / debug.
-
+  PORTB.DIRSET = PIN6_bm; // Possible use for Bluetooth on Trainer port.
+  PORTD.DIRSET = PIN6_bm; // Test Point 6.
+  PORTF.DIRSET = PIN5_bm; // Test Point 5.
 }
 
 
