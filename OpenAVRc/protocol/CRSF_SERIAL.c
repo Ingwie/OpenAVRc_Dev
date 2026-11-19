@@ -475,7 +475,7 @@ static void CRSF_LinkBatteryMain()
       telemetryData.value.vfas = crsf_sport_battery_dv;
     }
 
-    frskyStreaming = frskyStreaming ? FRSKY_TIMEOUT10ms : FRSKY_TIMEOUT_FIRST;
+//  frskyStreaming = frskyStreaming ? FRSKY_TIMEOUT10ms : FRSKY_TIMEOUT_FIRST;
   }
 
   // One packet per 10ms tick, VFAS first. CRSF raw and local radio
@@ -679,7 +679,7 @@ static void CRSF_ExtraTelemetryTick()
     processHubPacket(CURRENT_ID, current_da);
     processHubPacket(OXS_MAH_ID,
                      capacity_mah > 65535UL ? 65535U : (uint16_t)capacity_mah);
-    frskyStreaming = frskyStreaming ? FRSKY_TIMEOUT10ms : FRSKY_TIMEOUT_FIRST;
+//    frskyStreaming = frskyStreaming ? FRSKY_TIMEOUT10ms : FRSKY_TIMEOUT_FIRST;
   }
   else if (type == CRSF_TYPE_VOLTAGES && n == 7 && payload[0] < 128U)
   {
@@ -702,7 +702,7 @@ static void CRSF_ExtraTelemetryTick()
     }
     telemetryData.value.minCellVolts = minCell;
     telemetryData.value.minCellIdx = minIdx;
-    frskyStreaming = frskyStreaming ? FRSKY_TIMEOUT10ms : FRSKY_TIMEOUT_FIRST;
+//    frskyStreaming = frskyStreaming ? FRSKY_TIMEOUT10ms : FRSKY_TIMEOUT_FIRST;
   }
   else if (type == CRSF_TYPE_VOLTAGES && n >= 3 && payload[0] == 128)
   {
@@ -715,7 +715,7 @@ static void CRSF_ExtraTelemetryTick()
       if (dv <= 255U)
       {
         telemetryData.rxBatt = (uint8_t)dv;
-        frskyStreaming = frskyStreaming ? FRSKY_TIMEOUT10ms : FRSKY_TIMEOUT_FIRST;
+//        frskyStreaming = frskyStreaming ? FRSKY_TIMEOUT10ms : FRSKY_TIMEOUT_FIRST;
       }
     }
   }
