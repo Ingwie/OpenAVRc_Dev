@@ -70,7 +70,6 @@ const static RfOptionSettingsvar_t RfOpt_Multi_Ser[] PROGMEM =
 PACK(
 struct mm_protocol_definition
 {
-  uint8_t proto_num; // OpenAVRc protocol number
   uint8_t multi_num; // Multimudule protocol number
   const pm_char * protoNameString;
 });
@@ -83,10 +82,10 @@ struct mm_protocol_definition
 
 // To generate mm_proto_definition array.
 // e.g. MULTIDEF(28,AFHDS2A,PWM_IBUS,PPM_IBUS,PWM_SBUS,PPM_SBUS,PWM_IB16,PPM_IB16,PWM_SB16,PPM_SB16)
-#define MULTIDEF(num, name, ... ) {MM_RF_PROTO_##num##_##name, num, STR_MM_PROTO_##num},  // Generates {MM_RF_PROTO_28_AFHDS2A, 28, STR_MM_PROTO_28}.
+#define MULTIDEF(num, name, ... ) {num, STR_MM_PROTO_##num},  // Generates {MM_RF_PROTO_28_AFHDS2A, 28, STR_MM_PROTO_28}.
 const mm_protocol_definition multi_protocols[] =
 {
-  { 0x00, 0x00, STR_DUMMY },
+  { 0x00, STR_DUMMY },
 #include "Multidef.txt"
 };
 #undef MULTIDEF
@@ -151,7 +150,6 @@ static uint16_t MULTI_cb()
   const mm_protocol_definition *pdef = getMultiProtocolDefinition(proto_type);
   proto_type = pdef->multi_num; // switch openAVRc protocol number to Multimodule protocol number
 
-  uint8_t protoByte;
   int8_t optionValue = g_model.rfOptionValue2;
   uint8_t subType = g_model.rfSubType;
 
@@ -171,7 +169,7 @@ static uint16_t MULTI_cb()
   //if(mm_type1_packet_ptr->mm_is_binding && systemBolls.protoMode == NORMAL_MODE) systemBolls.protoMode = BIND_MODE;
   //else if(!mm_type1_packet_ptr->mm_is_binding && systemBolls.protoMode == BIND_MODE) systemBolls.protoMode = NORMAL_MODE;
 
-  protoByte = proto_type & 0x1F;
+  uint8_t protoByte = proto_type & 0x1F;
   if (systemBolls.protoMode == BIND_MODE)
     protoByte |= 0x80;
   else if (systemBolls.rangeModeIsOn)

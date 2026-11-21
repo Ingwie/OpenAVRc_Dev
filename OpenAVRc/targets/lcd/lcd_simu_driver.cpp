@@ -343,17 +343,21 @@ uint8_t fat_move_file(struct fat_fs_struct* fs, struct fat_dir_entry_struct* dir
  fromDir.Replace(slashChar, "");
  wxString destFile = wxString::FromUTF8(file_new);
  wxString destDir = wxString::FromUTF8(parent_new->dir_entry.long_name);
+ destDir.Replace(slashChar, "");
 
  if (sddir.Exists(sdroot + fromDir))
   {
    if (sddir.Exists(sdroot + switchRootChar(wxString::FromUTF8(destDir))))
     {
-     wxString temp = sdroot + fromDir + slashChar + switchRootChar(wxString::FromUTF8(fromFile));
-     if (wxFile::Exists(temp))
+     wxString from = sdroot + fromDir + slashChar + switchRootChar(wxString::FromUTF8(fromFile));
+     wxString to = sdroot+destDir+ slashChar +switchRootChar(wxString::FromUTF8(destFile));
+
+     if (wxFile::Exists(from))
       {
-       if (wxCopyFile(sdroot+fromDir+ slashChar +switchRootChar(wxString::FromUTF8(fromFile)), sdroot+destDir+"\\"+switchRootChar(wxString::FromUTF8(destFile)), 0))
+
+       if (wxCopyFile(from ,to, 0))
         {
-         if (wxRemoveFile(sdroot+fromDir+ slashChar +switchRootChar(wxString::FromUTF8(fromFile))))
+         if (wxRemoveFile(from))
          {
           return 1;
          }
