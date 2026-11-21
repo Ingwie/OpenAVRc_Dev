@@ -519,7 +519,7 @@ ifeq ($(PCB), EVO_V2)
   CC2500 = YES
   CYRF6936 = YES
   NRF24L01 = YES
-  SERIAL_PROTOCOL = NO
+  SERIAL_PROTOCOL = CRSF
   INV_STICK_RV = YES
   INV_STICK_LH = YES
 
@@ -528,7 +528,7 @@ ifeq ($(PCB), EVO_V2)
   EEPROMSRC = eeprom_common.cpp eeprom_rlc.cpp
   PULSESSRC = pulses/pulses_avr.cpp
   GUIGENERALSRC += gui/menu_general_diagkeys.cpp targets/evo_v2/menu_general_diaganas.cpp
-  EXTRABOARDSRC =  targets/evo_v2/xmega_adc_driver.cpp targets/evo_v2/Serial1.cpp
+  EXTRABOARDSRC =  targets/evo_v2/xmega_adc_driver.cpp
   EXTRABOARDSRC += targets/evo_v2/lcd_spi_driver.cpp
 #  EXTRABOARDSRC += targets/evo_v2/lcd_dma_driver.cpp
 
