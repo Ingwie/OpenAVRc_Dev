@@ -229,7 +229,8 @@ inline void boardInit()
 
 void xmega_wdt_enable_512ms(void)
 {
-  ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
+  ATOMIC_BLOCK(ATOMIC_RESTORESTATE)
+  {
     _PROTECTED_WRITE(WDT.CTRL, WDT_PER_512CLK_gc | WDT_ENABLE_bm | WDT_CEN_bm);
     while (WDT.STATUS & WDT_SYNCBUSY_bm); // wait
     // We don't want a windowed watchdog.
@@ -238,10 +239,10 @@ void xmega_wdt_enable_512ms(void)
   }
 }
 
-
 void xmega_wdt_disable(void)
 {
-  ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
+  ATOMIC_BLOCK(ATOMIC_RESTORESTATE)
+  {
     _PROTECTED_WRITE(WDT.CTRL, WDT_PER_8KCLK_gc | WDT_CEN_bm);
 //    while (WDT.STATUS & WDT_SYNCBUSY_bm); // wait
   }
