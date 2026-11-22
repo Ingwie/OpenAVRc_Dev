@@ -223,9 +223,28 @@ inline void boardInit()
   PORTB.DIRSET = PIN6_bm; // Possible use for Bluetooth on Trainer port.
   PORTD.DIRSET = PIN6_bm; // Test Point 6.
   PORTF.DIRSET = PIN5_bm; // Test Point 5.
+
+#if 0
+  USART_SET_BAUD_400K(USARTD0);
+  USART_SET_MODE_8N1(USARTD0);
+  USART_ENABLE_TX(USARTD0);
+  PORTD.DIRSET = USART_TXD_PIN_bm;
+#endif
 }
 
 
+void debugSportPacket(uint8_t *sport_packet)
+{
+//  uint8_t  dataId = sport_packet[0];
+//  uint8_t  prim   = sport_packet[1];
+//  uint16_t appId  = *((uint16_t *)(sport_packet+2));
+
+  for (uint8_t i = 0 ; i < FRSKY_TLM_PKT_SIZE; i++)
+  {
+    WAIT_USART_BUFFER_EMPTY(USARTD0);
+    USARTD0.DATA = *sport_packet++;
+  }
+}
 
 void xmega_wdt_enable_512ms(void)
 {

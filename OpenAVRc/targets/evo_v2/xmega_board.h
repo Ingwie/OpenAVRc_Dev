@@ -23,11 +23,11 @@
 #define USART_SET_BAUD_38K4(usartxn)   _USART_SET_BAUD(usartxn, 12, +2)
 #define USART_SET_BAUD_57K6(usartxn)   _USART_SET_BAUD(usartxn, 135,-2)
 #define USART_SET_BAUD_100K(usartxn)   _USART_SET_BAUD(usartxn, 159,-3)
-// CRSF at 32 MHz: exact 400000 baud (BSEL=4, BSCALE=0).
-#define USART_SET_BAUD_400K(usartxn) _USART_SET_BAUD(usartxn, 4, 0)
 #define USART_SET_BAUD_115K2(usartxn)  _USART_SET_BAUD(usartxn, 131,-3)
 #define USART_SET_BAUD_125K(usartxn)   _USART_SET_BAUD(usartxn, 127,-3)
 #define USART_SET_BAUD_230K4(usartxn)  _USART_SET_BAUD(usartxn, 123,-4)
+// CRSF at 32 MHz: exact 400000 baud (BSEL=4, BSCALE=0).
+#define USART_SET_BAUD_400K(usartxn) _USART_SET_BAUD(usartxn, 4, 0)
 
 #define _USART_SET_BAUD(usartxn, bsel, bscale) \
   { usartxn.BAUDCTRLA = bsel & 0xFF; usartxn.BAUDCTRLB = ((int8_t) bscale << USART_BSCALE_gp) | (bsel >> 8); }

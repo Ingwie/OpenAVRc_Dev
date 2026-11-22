@@ -151,25 +151,37 @@ ISR(TIMER1_COMPB_vect) // Timer 1 compare "B" vector. Used for PPM commutation a
 }
 #endif
 
-#ifdef __AVR_XMEGA__
+
+#if defined(CPUXMEGA)
 FORCEINLINE void sendStopPulses()
 {
-  if(pulsesStarted()) {
+  if(pulsesStarted())
+  {
     PROTO_Cmds(PROTOCMD_RESET);
     SIMU_SLEEP(100);
 
+    if(IS_PPM_PROTOCOL(s_current_protocol))
+    {
+#if defined(FRSKY)
+      USART_DISABLE_RX(FRSKY_USART);
+      FRSKY_USART_PORT.PIN2CTRL &= ~PORT_INVEN_bm; // Non-Invert RXD pin.
+      FRSKY_USART_PORT.PIN2CTRL = PORT_OPC_PULLUP_gc; // Pullup RXD.
+      parseSerialTelemFunction = parseSerialTelemFakeByte;
+#endif
+    }
+
 #if defined(SPIMODULES)
-  if(IS_SPIMODULES_PROTOCOL(s_current_protocol)) {
-    // Cannot send a reset via SPI if it is disabled ... causes WDT reset due to USART blocking.
+    else if(IS_SPIMODULES_PROTOCOL(s_current_protocol))
+    {
+      // Cannot send a reset via SPI if it is disabled ... causes WDT reset due to USART blocking.
+      USART_DISABLE_TX(RF_USART);
+      USART_DISABLE_RX(RF_USART);
 
-    USART_DISABLE_TX(RF_USART);
-    USART_DISABLE_RX(RF_USART);
-
-    RF_CS_CC2500_INACTIVE();
-    RF_CS_CYRF6936_INACTIVE();
-    RF_CS_NRF24L01_INACTIVE();
-    RF_CS_A7105_INACTIVE();
-  }
+      RF_CS_CC2500_INACTIVE();
+      RF_CS_CYRF6936_INACTIVE();
+      RF_CS_NRF24L01_INACTIVE();
+      RF_CS_A7105_INACTIVE();
+    }
 #endif
   }
 
@@ -179,28 +191,30 @@ FORCEINLINE void sendStopPulses()
 
 void startPulses(enum ProtoCmds Command)
 {
-  if(pulsesStarted()) {
-  PROTO_Cmds(PROTOCMD_RESET); // Always stop protocol due to repeated PROTOCMD_INIT's
+  if(pulsesStarted())
+  {
+    PROTO_Cmds(PROTOCMD_RESET); // Always stop protocol due to repeated PROTOCMD_INIT's
     SIMU_SLEEP(100);
 
 #if defined(SPIMODULES)
-  if(IS_SPIMODULES_PROTOCOL(s_current_protocol)) {
-    // Cannot send a reset via SPI if it is disabled ... causes WDT reset due to USART blocking.
+    if(IS_SPIMODULES_PROTOCOL(s_current_protocol))
+    {
+      // Cannot send a reset via SPI if it is disabled ... causes WDT reset due to USART blocking.
+      USART_DISABLE_TX(RF_USART);
+      USART_DISABLE_RX(RF_USART);
 
-    USART_DISABLE_TX(RF_USART);
-    USART_DISABLE_RX(RF_USART);
-
-    RF_CS_CC2500_INACTIVE();
-    RF_CS_CYRF6936_INACTIVE();
-    RF_CS_NRF24L01_INACTIVE();
-    RF_CS_A7105_INACTIVE();
-  }
+      RF_CS_CC2500_INACTIVE();
+      RF_CS_CYRF6936_INACTIVE();
+      RF_CS_NRF24L01_INACTIVE();
+      RF_CS_A7105_INACTIVE();
+    }
 #endif
   }
 
 #if defined(SPIMODULES)
   RFPowerOut = 0;
 #endif
+
 #if defined(FRSKY)
   telemetryResetValue();
 #endif
@@ -208,8 +222,14 @@ void startPulses(enum ProtoCmds Command)
   if (g_model.rfProtocol > (PROTOCOL_COUNT-1)) g_model.rfProtocol = PROTOCOL_PPM;
   s_current_protocol = g_model.rfProtocol;
 
-  if(IS_PPM_PROTOCOL(s_current_protocol)) {
+  if(IS_PPM_PROTOCOL(s_current_protocol))
+  {
     // Do not do setup_rf_tc() as pulses use PWM mode.
+#if defined(FRSKY)
+    FRSKY_USART_PORT.DIRCLR = USART_RXD_PIN_bm; // RXD pin as input.
+    FRSKY_USART_PORT.PIN2CTRL = PORT_INVEN_bm | PORT_OPC_PULLDOWN_gc; // Invert and Pulldown RXD.
+    parseSerialTelemFunction = parseSerialTelemFrskyByte;
+#endif
   }
 
 #if (SERIAL_PROTOCOL==DSM)
@@ -231,7 +251,8 @@ void startPulses(enum ProtoCmds Command)
 #endif
 
 #if (SERIAL_PROTOCOL==CRSF)
-  else if(IS_CRSF_PROTOCOL(s_current_protocol)) {
+  else if(IS_CRSF_PROTOCOL(s_current_protocol))
+  {
     CRSF_USART_PORT.PIN3CTRL = PORT_OPC_PULLUP_gc; // Pullup TXD.
     CRSF_USART_PORT.DIRSET = USART_TXD_PIN_bm;
     CRSF_USART_PORT.PIN2CTRL = PORT_OPC_PULLUP_gc; // Pullup RXD.
@@ -241,12 +262,14 @@ void startPulses(enum ProtoCmds Command)
 #endif
 
 #if defined(SPIMODULES)
-  else if(IS_SPIMODULES_PROTOCOL(s_current_protocol)) {
+  else if(IS_SPIMODULES_PROTOCOL(s_current_protocol))
+  {
     rf_usart_mspi_init();
     setup_rf_tc();
     RF_POWER_MEM_P2M = 255; // Force the first power update.
   }
 #endif
+
   PROTO_Cmds = *Protos[g_model.rfProtocol].Cmds;
   SIMU_SLEEP(100);
   PROTO_Cmds(PROTOCMD_GETOPTIONS);
@@ -259,7 +282,8 @@ ISR(RF_TIMER_COMPA_VECT) // ISR for Protocol Callback.
 {
   timer_counts = timer_callback(); // Function pointer e.g. skyartec_cb().
 
-    if(! timer_counts) {
+    if(! timer_counts)
+    {
       PROTO_Cmds(PROTOCMD_RESET);
       return;
     }
