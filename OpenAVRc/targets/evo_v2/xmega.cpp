@@ -220,15 +220,17 @@ inline void boardInit()
   InitVoiceUartTx();
 #endif
 
-  PORTB.DIRSET = PIN6_bm; // set mpx rf enable as output / debug.
-
+  PORTB.DIRSET = PIN6_bm; // Possible use for Bluetooth on Trainer port.
+  PORTD.DIRSET = PIN6_bm; // Test Point 6.
+  PORTF.DIRSET = PIN5_bm; // Test Point 5.
 }
 
 
 
 void xmega_wdt_enable_512ms(void)
 {
-  ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
+  ATOMIC_BLOCK(ATOMIC_RESTORESTATE)
+  {
     _PROTECTED_WRITE(WDT.CTRL, WDT_PER_512CLK_gc | WDT_ENABLE_bm | WDT_CEN_bm);
     while (WDT.STATUS & WDT_SYNCBUSY_bm); // wait
     // We don't want a windowed watchdog.
@@ -237,10 +239,10 @@ void xmega_wdt_enable_512ms(void)
   }
 }
 
-
 void xmega_wdt_disable(void)
 {
-  ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
+  ATOMIC_BLOCK(ATOMIC_RESTORESTATE)
+  {
     _PROTECTED_WRITE(WDT.CTRL, WDT_PER_8KCLK_gc | WDT_CEN_bm);
 //    while (WDT.STATUS & WDT_SYNCBUSY_bm); // wait
   }

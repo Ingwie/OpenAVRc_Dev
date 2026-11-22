@@ -142,19 +142,20 @@ NOINLINE const void parseTelemFrskyByte(uint8_t data)
     }
 }
 
+
 uint8_t checkSportPacket(uint8_t *packet)
 {
   uint16_t crc = 0;
-  for (uint8_t i=1; i<FRSKY_TLM_PKT_SIZE; i++)
-    {
-      crc += packet[i]; //0-1FF
-      crc += crc >> 8; //0-100
-      crc &= 0x00ff;
-      crc += crc >> 8; //0-0FF
-      crc &= 0x00ff;
-    }
+
+  for (uint8_t i = 1; i < FRSKY_TLM_PKT_SIZE; i++)
+  {
+    crc += packet[i];
+    crc += crc >> 8;
+    crc &= 0x00ff;
+  }
   return (crc == 0x00ff);
 }
+
 
 void setMinMaxAltitude()
 {
@@ -218,13 +219,18 @@ void manageGpsAltitude()
       // First received GPS position => Pilot GPS position
       getGpsPilotPosition();
     }
-  else if (menuHandlers[menuLevel] == menuTelemetryFrsky)
+  else if (menuHandlers[menuLevel] == menuTelemetryFrsky ||
+           IS_CRSF_PROTOCOL(s_current_protocol))
     {
       // AFHDS2A/iBUS already provides GPS distance as sensor ID 0x14.
-      // Keep the received value and do not overwrite it with the legacy
-      // latitude/longitude-based distance calculation from maths.cpp.
+      // Keep the received value and do not overwrite it.
       if (!IS_USR_PROTO_IBUS())
-        getGpsDistance();
+        {
+          // CRSF has no dedicated GPS-distance field.
+          // Calculate it from the received latitude/longitude even when
+          // the telemetry page is not open.
+          getGpsDistance();
+        }
     }
 }
 #endif
@@ -359,9 +365,21 @@ void processSportPacket(uint8_t *sport_packet)
     case X_FUEL_ID :
       telemetryData.value.fuelLevel = SPORT_DATA_U32(sport_packet);
       break;
-    case X_ALT_ID :
-      telemetryData.value.baroAltitude = SPORT_DATA_S32(sport_packet)/100;
-      manageBaroAltitude();
+    case X_ALT_ID:
+      telemetryData.value.baroAltitude = SPORT_DATA_S32(sport_packet) / 100;
+      if (IS_CRSF_PROTOCOL(g_model.rfProtocol))
+      {
+        // CRSF 0x09 already carries relative altitude.
+        // Do not apply the FrSky startup offset a second time.
+        if (!telemetryData.value.baroAltitudeOffset)
+          telemetryData.value.baroAltitudeOffset = 1;
+
+        setMinMaxAltitude();
+      }
+      else
+      {
+        manageBaroAltitude();
+      }
       break;
     case X_VARIO_ID :
       telemetryData.value.varioSpeed = SPORT_DATA_S32(sport_packet);
@@ -837,6 +855,16 @@ void telemetryInterrupt10ms()
               telemetryData.value.currentConsumption += 1;
               telemetryData.value.currentPrescale -= 3600;
             }
+        }
+      else
+        {
+          // openXsensor already supplies VFAS and Current.
+          // Calculate power from the values actually received from oXs,
+          // regardless of the telemetry protocol carrying them.
+          const uint16_t voltage = telemetryData.value.vfas; // unit: 1/10 Volts.
+          const uint16_t current = telemetryData.value.current; // unit: 1/10 Amps.
+
+          telemetryData.value.power = ((voltage * current) + 50U) / 100U; // Rounding applied.
         }
 
       if (telemetryData.value.power > telemetryData.value.maxPower)
