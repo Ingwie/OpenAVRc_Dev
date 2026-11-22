@@ -2271,6 +2271,16 @@ US_TO_TICKS(x) ((x - 1500) * 8 / 5 + 992)
 static void build_CRSF_data_pkt()
 {
   #if defined(X_ANY)
+/*
+  Recommended CRSF configuration for X-Any:
+  - Packet Rate : 100Hz Full
+  - TLM Ratio   : As desired
+  - Switch Mode : 8ch
+  - Power       : As desired
+  - Do not use channel 5, as it is used for arming.
+  - Two repeats give 100% reception in testing.
+  This configuration gives the best X-Any / RCUL reception rate in testing.
+*/
   Xany_scheduleTx_AllInstance();
   #endif
 
