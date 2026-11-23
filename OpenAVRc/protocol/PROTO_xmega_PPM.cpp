@@ -1,7 +1,7 @@
 /*
  * Authors (alphabetical order)
  *
- * - Rick Kilvington (2018).
+ * - Rich Kilvington (2018).
  *
  */
 
@@ -60,10 +60,6 @@ static void PROTO_PPM_reset()
 
 static void PROTO_PPM_initialize()
 {
-#if defined(FRSKY)
-  telemetryPPMInit();
-#endif
-
   RptrB = &pulses2MHz.pword[0];
   *RptrB = 0;
 
