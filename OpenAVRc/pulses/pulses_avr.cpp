@@ -226,10 +226,10 @@ void startPulses(enum ProtoCmds Command)
   {
     // Do not do setup_rf_tc() as pulses use PWM mode.
 #if defined(FRSKY)
-    telemetryPPMInit();
     FRSKY_USART_PORT.DIRCLR = USART_RXD_PIN_bm; // RXD pin as input.
     FRSKY_USART_PORT.PIN2CTRL = PORT_INVEN_bm | PORT_OPC_PULLDOWN_gc; // Invert and Pulldown RXD.
     parseSerialTelemFunction = parseSerialTelemFrskyByte;
+    telemetryPPMInit();
 #endif
   }
 
