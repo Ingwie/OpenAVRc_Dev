@@ -168,7 +168,7 @@ enum
 
 const static RfOptionSettingsvar_t RfOpt_HOTT_Ser[] PROGMEM =
 {
- /*rfProtoNeed*/PROTO_NEED_SPI | BOOL1USED, //can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
+ /*rfProtoNeed*/PROTO_NEED_SPI | BOOL1USED | BOOL3USED, //can be PROTO_NEED_SPI | BOOL1USED | BOOL2USED | BOOL3USED
  /*rfSubTypeMax*/1,
  /*rfOptionValue1Min*/-128, // FREQFINE MIN
  /*rfOptionValue1Max*/127,  // FREQFINE MAX
@@ -178,6 +178,7 @@ const static RfOptionSettingsvar_t RfOpt_HOTT_Ser[] PROGMEM =
 };
 
 const pm_char STR_SUBTYPE_HOTT[] PROGMEM = "Sync""NoSy";
+const pm_char STR_TXTMODE[] PROGMEM = INDENT"Txt Mode";
 
 #define HOTT_TX_PACKET_LEN	50
 #define HOTT_RX_PACKET_LEN	22
@@ -980,8 +981,165 @@ static void HOTT_oavrc_decode_motor_page(uint8_t sensor, uint8_t page,
   }
 }
 
+
+#define HOTT_TXT_MODE 1
+
+#if defined(HOTT_TXT_MODE)
+// ---------------------------------------------------------------------------
+// HOTT TEXT MODE
+// Native HoTT config menu.
+//
+// Old HoTT code documents:
+//   text mode = packet_p2M[29] bit0 set
+//   RX idle/start button = packet_p2M[28] = 0x0F
+//   19 text pages (0x00..0x12)
+//   each RF page carries 9 display chars in buf[13..21]
+//   highlighted chars have bit 7 set
+//
+// The final display is 21 x 8 = 168 chars.
+// ---------------------------------------------------------------------------
+#define HOTT_Txt_Entered g_model.rfOptionBool2
+
+#define HOTT_DBG_TEXT_PAGE_COUNT 19U
+#define HOTT_DBG_TEXT_CHARS_PER_PAGE 9U
+
+static void HOTT_dbg_text_clear()
+{
+ for(uint16_t i = 0U; i < HOTT_TEXT_SIZE; ++i)
+  ReBuff.txtHottDatas.HOTT_text_screen[i] = (uint8_t)' ';
+
+ ReBuff.txtHottDatas.HOTT_text_seen[0] = 0U;
+ ReBuff.txtHottDatas.HOTT_text_seen[1] = 0U;
+ ReBuff.txtHottDatas.HOTT_text_seen[2] = 0U;
+ ReBuff.txtHottDatas.HOTT_text_seq = 0U;
+ ReBuff.txtHottDatas.HOTT_text_button = 0x0FU;
+}
+
+void HOTT_dbg_text_set(uint8_t enable)
+{
+ if(enable)
+  {
+   HOTT_dbg_text_clear();
+   HOTT_Txt_Entered = 1U;
+  }
+ else
+  {
+   HOTT_Txt_Entered = 0U;
+   ReBuff.txtHottDatas.HOTT_text_button = 0x0FU;
+   ReBuff.txtHottDatas.HOTT_text_seq = 0U;
+
+   // Restart normal native HoTT binary polling cleanly.
+   HOTT_oavrc_sensor_state = 0U;
+   HOTT_oavrc_page_flags = 0U;
+   HOTT_oavrc_search_count = HOTT_OAVRC_SEARCH_PERIOD;
+   HOTT_oavrc_sensor_ok_mask = 0U;
+   HOTT_SENSOR_PROBE_COUNT_P2M = 0U;
+  }
+}
+
+void HOTT_dbg_text_key(uint8_t key)
+{
+ // RX text mode buttons are low-nibble commands:
+ // 0x07 left/page-, 0x09 enter, 0x0B up,
+ // 0x0D down, 0x0E right/page+, 0x0F idle.
+ if(HOTT_Txt_Entered)
+  ReBuff.txtHottDatas.HOTT_text_button = key;
+}
+
+static void HOTT_dbg_text_capture(const uint8_t *buf)
+{
+ const uint8_t page = buf[11];
+ if(page >= HOTT_DBG_TEXT_PAGE_COUNT)
+  return;
+
+ ReBuff.txtHottDatas.HOTT_text_seen[page >> 3] |= (uint8_t)(1U << (page & 7U));
+
+ const uint16_t base = (uint16_t)page * HOTT_DBG_TEXT_CHARS_PER_PAGE;
+
+ for(uint8_t i = 0U; i < HOTT_DBG_TEXT_CHARS_PER_PAGE; ++i)
+  {
+   const uint16_t pos = base + i;
+   if(pos >= HOTT_TEXT_SIZE)
+    break;
+   ReBuff.txtHottDatas.HOTT_text_screen[pos] = buf[13U + i];
+  }
+
+ // Old implementation incremented the text sync sequence on each valid RX frame.
+ ReBuff.txtHottDatas.HOTT_text_seq++;
+ if(ReBuff.txtHottDatas.HOTT_text_seq >= HOTT_DBG_TEXT_PAGE_COUNT)
+  ReBuff.txtHottDatas.HOTT_text_seq = 0U;
+}
+
+void menuHottTextMode(uint8_t event)
+{
+  if(!HOTT_Txt_Entered) {
+    closeLogIfActived();
+    HOTT_Txt_Entered = 1U;
+    HOTT_dbg_text_set(1U);
+  }
+
+  switch(event) {
+  case EVT_KEY_FIRST(KEY_LEFT):
+    HOTT_dbg_text_key(0x07U);   // previous page / left
+    AUDIO_KEYPAD_UP();
+    break;
+
+  case EVT_KEY_FIRST(KEY_ENTER):
+    HOTT_dbg_text_key(0x09U);   // enter
+    AUDIO_KEYPAD_UP();
+    break;
+
+  case EVT_KEY_FIRST(KEY_UP):
+    HOTT_dbg_text_key(0x0BU);   // previous / up
+    AUDIO_KEYPAD_UP();
+    break;
+
+  case EVT_KEY_FIRST(KEY_DOWN):
+    HOTT_dbg_text_key(0x0DU);   // next / down
+    AUDIO_KEYPAD_UP();
+    break;
+
+  case EVT_KEY_FIRST(KEY_RIGHT):
+    HOTT_dbg_text_key(0x0EU);   // next page / right
+    AUDIO_KEYPAD_UP();
+    break;
+
+  case EVT_KEY_FIRST(KEY_EXIT):
+    HOTT_dbg_text_set(0U);
+    HOTT_Txt_Entered = 0U;
+    g_model.rfOptionBool3 = 0;
+    popMenu();
+    break;
+  }
+
+  // Native HoTT text display: 21 columns x 8 rows.
+  // For this first validation, bit7 (inverse/highlight) is stripped.
+  for(uint8_t row = 0U; row < 8U; ++row) {
+    for(uint8_t col = 0U; col < 21U; ++col) {
+      uint8_t c = ReBuff.txtHottDatas.HOTT_text_screen[(uint16_t)row * 21U + col];
+      uint8_t highl = (c & 0x80)>>7;
+      c &= 0x7FU;
+
+      if(c < 0x20U || c > 0x7EU)
+        c = ' ';
+
+      lcdDrawCharAtt((coord_t)(col * 6U), (coord_t)(row * 8U), (char)c, highl);
+    }
+  }
+}
+#endif
+
+
 static void HOTT_oavrc_process_telemetry(const uint8_t *buf)
 {
+#if defined(HOTT_TXT_MODE)
+ if(HOTT_Txt_Entered)
+  {
+   HOTT_dbg_text_capture(buf);
+   return; // Never feed text pages to the normal binary decoder.
+  }
+#endif
+
  HOTT_bridge_receiver_telemetry(buf);
 
  // MPM advances the Sync telemetry sequence for EVERY valid HoTT RX frame.
@@ -1179,15 +1337,33 @@ static void HOTT_prep_data_packet()
 #if defined(FRSKY)
  if(!HOTT_BIND_P2M && g_model.rfOptionBool1)
   {
-   // Native OpenAVRc uses the same HoTT Sync request sequencing as MPM.
-   // Focused cycle: 0x89 Vario -> 0x8A GPS -> 0x8D GAM -> 0x8E EAM.
-   // External oXs replies use the longer dwell because they are slower
-   // than the receiver's internal Vario.
-   packet_p2M[28] = (uint8_t)(0x89U + HOTT_OAVRC_SENSOR_CUR());
-   if(g_model.rfSubType == HOTT_OAVRC_SUBTYPE_SYNC)
-    packet_p2M[29] = (uint8_t)(((HOTT_OAVRC_SENSOR_SEQ() + 1U) << 3) | 2U);
+#if defined(HOTT_TXT_MODE)
+   if(HOTT_Txt_Entered)
+    {
+     // GR-24 PRO RX text/config mode.
+     // For RX-only queries the old MPM code strips the 0x80 sensor nibble,
+     // therefore packet[28] carries only the button nibble (0x07..0x0F).
+     packet_p2M[28] = ReBuff.txtHottDatas.HOTT_text_button;
+
+     if(g_model.rfSubType == HOTT_OAVRC_SUBTYPE_SYNC)
+      packet_p2M[29] = (uint8_t)(((ReBuff.txtHottDatas.HOTT_text_seq + 1U) << 3) | 1U);
+     else
+      packet_p2M[29] = 0x01U;
+
+     // A pressed key is sent only once; then return to idle/start 0x0F.
+     ReBuff.txtHottDatas.HOTT_text_button = 0x0FU;
+    }
    else
-    packet_p2M[29] = 0x02U; // NoSync
+#endif
+    {
+     // Native OpenAVRc uses the same HoTT Sync request sequencing as MPM.
+     // Focused cycle: 0x89 Vario -> 0x8A GPS -> 0x8D GAM -> 0x8E EAM.
+     packet_p2M[28] = (uint8_t)(0x89U + HOTT_OAVRC_SENSOR_CUR());
+     if(g_model.rfSubType == HOTT_OAVRC_SUBTYPE_SYNC)
+      packet_p2M[29] = (uint8_t)(((HOTT_OAVRC_SENSOR_SEQ() + 1U) << 3) | 2U);
+     else
+      packet_p2M[29] = 0x02U; // NoSync
+    }
   }
 #endif
 
@@ -1567,7 +1743,7 @@ const void *HOTT_Cmds(enum ProtoCmds cmd)
                        STR_RFPOWER,    //Option 3 (uint 0 to 31)
                        STR_TELEMETRY,  //OptionBool 1
                        STR_DUMMY,      //OptionBool 2
-                       STR_DUMMY       //OptionBool 3
+                       STR_TXTMODE       //OptionBool 3
                       );
    return 0;
   default:

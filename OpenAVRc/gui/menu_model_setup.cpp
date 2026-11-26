@@ -1201,6 +1201,9 @@ MENU_TAB({ 0, 0, 2, CASE_PERSISTENT_TIMERS(0) 0, 0, 2, CASE_PERSISTENT_TIMERS(0)
          if (RfOptionSettings.rfOptionBool3Used)
           {
            ON_OFF_MENU_ITEM(g_model.rfOptionBool3, MODEL_SETUP_2ND_COLUMN, y, RfOptionSettings.rfOptionBool3Name, attr, event);
+#ifdef PROTO_HAS_CC2500
+           if ((protocol == PROTOCOL_HOTT) && (g_model.rfOptionBool3)) pushMenu(menuHottTextMode);
+#endif
           }
          else
           {

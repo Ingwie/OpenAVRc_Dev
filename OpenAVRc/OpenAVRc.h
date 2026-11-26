@@ -1270,47 +1270,7 @@ const void * (*PROTO_Cmds)(enum ProtoCmds);
 
 typedef const void* (*CMDS)(enum ProtoCmds);
 
-
-/*Load Progmem name for GUI */
-#define PROTODEF(proto, module, cmd, name, progmem_name) progmem_name;
-#include "protocol/protocol.h"
-#undef PROTODEF
-
-#define PROTODEF(proto, module, cmd, name, progmem_name) extern const void * cmd(enum ProtoCmds);
-#include "protocol/protocol.h"
-#undef PROTODEF
-
-/* Enum protocols */
-#define PROTODEF(proto, module, cmd, name, progmem_name) proto,
-enum Protocols {
-#include "protocol/protocol.h"
-  PROTOCOL_COUNT,
-};
-#undef PROTODEF
-
-/*Load proto, pm_char name and Cmds */
-#define PROTODEF(proto, module, cmd, name, progmem_name) { proto, name, cmd },
-struct Proto_struct {
-  enum Protocols Protocol;
-  const pm_char* ProtoName;
-  CMDS Cmds; // Cmds
-} Protos[] = {
-#include "protocol/protocol.h"
-};
-#undef PROTODEF
-
-/* Load Protocols */
-#include "protocol/interface.h"
-
-///////////////// PROTOCOLS ///////////////////
-
-
-extern void checkBattery();
-extern void OpenAVRcClose();
-extern void OpenAVRcInit(uint8_t mcusr);
-
 // Re-useable byte array to save having multiple buffers
-#define SD_SCREEN_FILE_LENGTH (26)
 
 union ReusableBuffer { // 240 bytes (LogBuffer)
 
@@ -1356,6 +1316,7 @@ union ReusableBuffer { // 240 bytes (LogBuffer)
   } calib; // 44 bytes
 
 #if defined(SDCARD)
+#define SD_SCREEN_FILE_LENGTH (26)
   struct {
     char lines[LCD_LINES-1][SD_SCREEN_FILE_LENGTH+1+1]; // the last char is used to store the flags (directory) of the line
     uint32_t available;
@@ -1390,9 +1351,57 @@ union ReusableBuffer { // 240 bytes (LogBuffer)
     uint8_t qrReady;
   } qrView; // 122 bytes
 #endif
+
+#ifdef PROTO_HAS_CC2500
+#define HOTT_TEXT_SIZE 168U
+  struct {
+    uint8_t HOTT_text_button;
+    uint8_t HOTT_text_seq;
+    uint8_t HOTT_text_seen[3];
+    uint8_t HOTT_text_screen[HOTT_TEXT_SIZE];
+  } txtHottDatas;
+#endif
 };
 
 extern union ReusableBuffer ReBuff;
+
+/*Load Progmem name for GUI */
+#define PROTODEF(proto, module, cmd, name, progmem_name) progmem_name;
+#include "protocol/protocol.h"
+#undef PROTODEF
+
+#define PROTODEF(proto, module, cmd, name, progmem_name) extern const void * cmd(enum ProtoCmds);
+#include "protocol/protocol.h"
+#undef PROTODEF
+
+/* Enum protocols */
+#define PROTODEF(proto, module, cmd, name, progmem_name) proto,
+enum Protocols {
+#include "protocol/protocol.h"
+  PROTOCOL_COUNT,
+};
+#undef PROTODEF
+
+/*Load proto, pm_char name and Cmds */
+#define PROTODEF(proto, module, cmd, name, progmem_name) { proto, name, cmd },
+struct Proto_struct {
+  enum Protocols Protocol;
+  const pm_char* ProtoName;
+  CMDS Cmds; // Cmds
+} Protos[] = {
+#include "protocol/protocol.h"
+};
+#undef PROTODEF
+
+/* Load Protocols */
+#include "protocol/interface.h"
+
+///////////////// PROTOCOLS ///////////////////
+
+
+extern void checkBattery();
+extern void OpenAVRcClose();
+extern void OpenAVRcInit(uint8_t mcusr);
 
 void checkFlashOnBeep();
 
